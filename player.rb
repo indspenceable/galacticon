@@ -1,8 +1,11 @@
+require './shot'
+
 class Player
   def initialize(window)
-    @image = Gosu::Image.load_tiles(window, "ships.png", 26, 18, false)[image_offset]
+    @w,@h = window.width, window.height
+    @image = window.ship_images[image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
-    @score = 0
+    @shots = window.shots
   end
 
   def warp(x, y)
@@ -25,8 +28,8 @@ class Player
   def move
     @x += @vel_x
     @y += @vel_y
-    @x %= 640
-    @y %= 480
+    @x %= @w
+    @y %= @h
 
     # @vel_x *= 0.95
     # @vel_y *= 0.95
@@ -36,9 +39,17 @@ class Player
     @image.draw_rot(@x, @y, 1, @angle)
   end
 
+  def shoot(window)
+    Shot.new(window, self).tap do |s|
+      s.warp(@x, @y, @angle)
+      @shots << s
+    end
+  end
+
   # TODO override these methods
   def image_offset
     rand(100)
+    #15*14
   end
   def turn_speed
     4.5
