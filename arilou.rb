@@ -1,23 +1,26 @@
 require './player'
 require './quick_shot'
 
-class QuickShip < Player
+class Arilou < StandardShip
   # TODO override these methods
   def image_offset
-    60
+    1
   end
   def turn_speed
     6
   end
   def acceleration
-    0.3
+    8
+  end
+  def move
+    super
+    @vel_x = 0
+    @vel_y = 0
   end
   def action1(window)
     shoot(window,QuickShot)
   end
   def action2(window)
-    @vel_x *= 0.5
-    @vel_y *= 0.5
-    @angle += 180
+    warp(rand(@w), rand(@h))
   end
 end

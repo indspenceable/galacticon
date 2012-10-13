@@ -39,16 +39,21 @@ class Player
     @image.draw_rot(@x, @y, 1, @angle)
   end
 
-  def shoot(window)
-    shot_klass.new(window, self).tap do |s|
-      s.warp(@x, @y, @angle)
+  def shoot(window, shot, x=@x, y=@y, angle=@angle)
+    shot.new(window, self).tap do |s|
+      s.warp(x, y, angle)
       @shots << s
     end
+  end
+  def action1(window)
+  end
+  def action2(window)
+  end
+  def action3(window)
   end
 
   # DEPENDS ON:
   # image_offset
   # turn_speed
   # acceleration
-  # shot_klass
 end

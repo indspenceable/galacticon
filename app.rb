@@ -2,6 +2,8 @@ require 'gosu'
 
 #classes
 require './standard_ship'
+require './quick_ship'
+require './arilou'
 
 class GameWindow < Gosu::Window
   def initialize
@@ -10,7 +12,7 @@ class GameWindow < Gosu::Window
 
     #@background_image = Gosu::Image.new(self, "media/Space.png", true)
 
-    @player = StandardShip.new(self)
+    @player = Arilou.new(self)
     @player.warp(320, 240)
   end
 
@@ -37,10 +39,15 @@ class GameWindow < Gosu::Window
   end
 
   def button_down(id)
-    if id == Gosu::KbEscape
+    case id
+    when Gosu::KbEscape
       close
-    elsif id == Gosu::GpButton0
-      @player.shoot(self)
+    when Gosu::GpButton0
+      @player.action1(self)
+    when Gosu::GpButton2
+      @player.action2(self)
+    when Gosu::GpButton3
+      @player.action2(self)
     end
   end
 
