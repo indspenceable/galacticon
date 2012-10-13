@@ -1,4 +1,4 @@
-require './player'
+require './ship''
 require './slow_shot'
 
 class StandardShip < Player

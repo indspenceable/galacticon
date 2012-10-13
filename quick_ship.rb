@@ -1,4 +1,4 @@
-require './player'
+require './ship''
 require './quick_shot'
 
 class QuickShip < Player

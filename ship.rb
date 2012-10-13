@@ -1,6 +1,6 @@
 require './shot'
 
-class Player
+class Ship
   def initialize(window)
     @w,@h = window.width, window.height
     @image = window.ship_images[image_offset]
