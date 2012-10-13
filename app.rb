@@ -38,6 +38,7 @@ class GameWindow < Gosu::Window
     #@background_image.draw(0, 0, 0);
   end
 
+  #TODO can we factor this out to the ships?
   def button_down(id)
     case id
     when Gosu::KbEscape
