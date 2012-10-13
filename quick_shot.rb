@@ -1,13 +1,13 @@
 require './shot'
 
-class SlowShot < Shot
+class QuickShot < Shot
   def image_offset
-    14*15+2
+    14*15+18
   end
   def speed
-    3
+    7
   end
   def duration
-    100
+    20
   end
 end

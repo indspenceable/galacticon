@@ -27,6 +27,7 @@ class GameWindow < Gosu::Window
     @player.move
 
     @shots.each(&:move)
+    @shots.reject!(&:expired?)
   end
 
   def draw
