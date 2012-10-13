@@ -12,7 +12,7 @@ class GameWindow < Gosu::Window
 
     #@background_image = Gosu::Image.new(self, "media/Space.png", true)
 
-    @player = Arilou.new(self)
+    @player = StandardShip.new(self)
     @player.warp(320, 240)
   end
 

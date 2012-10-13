@@ -24,8 +24,21 @@ class Player
     @vel_x += Gosu::offset_x(@angle, acceleration)
     @vel_y += Gosu::offset_y(@angle, acceleration)
   end
-
+  def velocity
+    Math.sqrt(@vel_x*@vel_x + @vel_y*@vel_y)
+  end
+  def limit_velocity!
+    vel = velocity
+    if vel > max_velocity
+      # puts "Limiting Velocity... #{@vel_x} #{@vel_y}"
+      ratio = max_velocity / velocity
+      @vel_x *= ratio
+      @vel_y *= ratio
+      # puts "Limited Velocity... #{@vel_x} #{@vel_y}"
+    end
+  end
   def move
+    limit_velocity!
     @x += @vel_x
     @y += @vel_y
     @x %= @w

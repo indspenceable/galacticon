@@ -12,6 +12,9 @@ class Arilou < StandardShip
   def acceleration
     8
   end
+  def max_velocity
+    9.0
+  end
   def move
     super
     @vel_x = 0

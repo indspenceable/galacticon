@@ -18,4 +18,7 @@ class StandardShip < Player
     shoot(window,SlowShot, @x+Gosu::offset_x(@angle+90,  10), @y+Gosu::offset_y(@angle+90,  10))
     shoot(window,SlowShot, @x+Gosu::offset_x(@angle+90, -10), @y+Gosu::offset_y(@angle+90, -10))
   end
+  def max_velocity
+    8.0
+  end
 end

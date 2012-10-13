@@ -20,4 +20,7 @@ class QuickShip < Player
     @vel_y *= 0.5
     @angle += 180
   end
+  def max_velocity
+    6.0
+  end
 end
