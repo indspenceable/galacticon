@@ -40,22 +40,15 @@ class Player
   end
 
   def shoot(window)
-    Shot.new(window, self).tap do |s|
+    shot_klass.new(window, self).tap do |s|
       s.warp(@x, @y, @angle)
       @shots << s
     end
   end
 
-  # TODO override these methods
-  def image_offset
-    rand(100)
-    #15*14
-  end
-  def turn_speed
-    4.5
-  end
-  def acceleration
-    0.1
-  end
-
+  # DEPENDS ON:
+  # image_offset
+  # turn_speed
+  # acceleration
+  # shot_klass
 end

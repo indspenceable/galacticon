@@ -1,7 +1,7 @@
 require 'gosu'
 
 #classes
-require './player'
+require './standard_ship'
 
 class GameWindow < Gosu::Window
   def initialize
@@ -10,7 +10,7 @@ class GameWindow < Gosu::Window
 
     #@background_image = Gosu::Image.new(self, "media/Space.png", true)
 
-    @player = Player.new(self)
+    @player = StandardShip.new(self)
     @player.warp(320, 240)
   end
 
