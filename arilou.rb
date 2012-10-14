@@ -1,4 +1,4 @@
-require './ship''
+require './ship'
 require './quick_shot'
 
 class Arilou < StandardShip

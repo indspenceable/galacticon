@@ -5,9 +5,12 @@ class SlowShot < Shot
     14*15+2
   end
   def speed
-    3
+    6
   end
   def duration
-    100
+    200
+  end
+  def damage
+    10
   end
 end

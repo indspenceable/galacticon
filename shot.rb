@@ -1,7 +1,8 @@
 class Shot
   attr_accessor :x, :y, :angle
-  def initialize(window, creator)
+  def initialize(window, owner)
     @image = window.effects[image_offset]
+    @owner = owner
     @w,@h = window.width, window.height
     @ticks = duration
   end
@@ -20,7 +21,26 @@ class Shot
     @image.draw_rot(@x, @y, 1, @angle)
   end
   def expired?
-    (@ticks -= 1) <= 0
+    ((@ticks -= 1) <= 0) || @hit
+  end
+  def check_for_collisions! ships
+    ships.each do |p|
+      if p != @owner &&
+        @x < p.x + r &&
+        @x > p.x - r &&
+        @y < p.y + r &&
+        @y > p.y - r &&
+        @hit = true
+        collide!(p)
+      end
+    end
+  end
+
+  def collide!(p)
+    p.damage!(damage)
+  end
+  def r
+    10
   end
 
   # Depends on:

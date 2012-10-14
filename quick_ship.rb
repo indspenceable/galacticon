@@ -1,7 +1,7 @@
-require './ship''
+require './ship'
 require './quick_shot'
 
-class QuickShip < Player
+class QuickShip < Ship
   # TODO override these methods
   def image_offset
     60
@@ -16,8 +16,8 @@ class QuickShip < Player
     shoot(window,QuickShot)
   end
   def action2(window)
-    @vel_x *= 0.5
-    @vel_y *= 0.5
+    @vel_x *= -0.5
+    @vel_y *= -0.5
     @angle += 180
   end
   def max_velocity

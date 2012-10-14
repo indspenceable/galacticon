@@ -6,49 +6,86 @@ require './quick_ship'
 require './arilou'
 
 class GameWindow < Gosu::Window
+  WIDTH = 1280
+  HEIGHT = 960
+
   def initialize
-    super(1280, 960, false)
+    super(WIDTH, HEIGHT, false)
     self.caption = "Gosu Tutorial Game"
 
     #@background_image = Gosu::Image.new(self, "media/Space.png", true)
 
-    @player = StandardShip.new(self)
-    @player.warp(320, 240)
+    @players = []
+    @players << StandardShip.new(self)
+    @players[0].warp(320, 240)
+    @players << Arilou.new(self)
+    @players[1].warp(640, 480)
   end
 
   def update
-    if button_down? Gosu::KbLeft or button_down? Gosu::GpLeft
-      @player.turn_left
+    @players.each_with_index do |p,i|
+      if button_down? Gosu::const_get(:"Gp#{i}Left")
+        p.turn_left
+      end
+      if button_down? Gosu::const_get(:"Gp#{i}Right")
+        p.turn_right
+      end
+      if button_down? Gosu::const_get(:"Gp#{i}Button1")
+        p.accelerate
+      end
+      p.move
     end
-    if button_down? Gosu::KbRight or button_down? Gosu::GpRight
-      @player.turn_right
-    end
-    if button_down? Gosu::KbUp or button_down? Gosu::GpButton1
-      @player.accelerate
-    end
-    @player.move
 
     @shots.each(&:move)
+    @shots.each do |s|
+      s.check_for_collisions!(@players)
+    end
     @shots.reject!(&:expired?)
   end
 
   def draw
-    @player.draw
+    @players.each_with_index do |p, i|
+      p.draw
+      width  = p.hull
+      height = 10
+
+      x,y = case i
+        when 0
+          [0,0]
+        when 1
+          [WIDTH - Ship::MAX_HULL, 0]
+        when 2
+          [0, HEIGHT - height]
+        when 3
+          [WIDTH - Ship::MAX_HULL, HEIGHT - height]
+      end
+
+      draw_quad(
+                x,          y, Gosu::Color::RED,
+        x + width,          y, Gosu::Color::RED,
+                x, y + height, Gosu::Color::RED,
+        x + width, y + height, Gosu::Color::RED
+      )
+    end
     @shots.each(&:draw)
     #@background_image.draw(0, 0, 0);
   end
 
   #TODO can we factor this out to the ships?
   def button_down(id)
-    case id
-    when Gosu::KbEscape
+    if id == Gosu::KbEscape
       close
-    when Gosu::GpButton0
-      @player.action1(self)
-    when Gosu::GpButton2
-      @player.action2(self)
-    when Gosu::GpButton3
-      @player.action2(self)
+    end
+
+    @players.each_with_index do |p,i|
+      case id
+      when Gosu::const_get(:"Gp#{i}Button0")
+        p.action1(self)
+      when Gosu::const_get(:"Gp#{i}Button2")
+        p.action2(self)
+      when Gosu::const_get(:"Gp#{i}Button3")
+        p.action2(self)
+      end
     end
   end
 

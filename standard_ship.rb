@@ -1,7 +1,7 @@
-require './ship''
+require './ship'
 require './slow_shot'
 
-class StandardShip < Player
+class StandardShip < Ship
   def image_offset
     1
   end

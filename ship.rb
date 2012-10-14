@@ -1,11 +1,20 @@
 require './shot'
 
 class Ship
+  attr_reader :x, :y, :hull
+
+  MAX_HULL = 100
+
   def initialize(window)
     @w,@h = window.width, window.height
     @image = window.ship_images[image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @shots = window.shots
+    @hull = MAX_HULL
+  end
+
+  def damage! amt
+    @hull -= amt
   end
 
   def warp(x, y)
