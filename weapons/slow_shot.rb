@@ -1,4 +1,4 @@
-require './shot'
+require './weapons/shot'
 
 class SlowShot < Shot
   def image_offset

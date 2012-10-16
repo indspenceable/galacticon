@@ -1,5 +1,3 @@
-require './shot'
-
 class Ship
   attr_reader :x, :y, :hull, :team
 

@@ -1,9 +1,9 @@
 require 'gosu'
 
 #classes
-require './standard_ship'
-require './quick_ship'
-require './arilou'
+require './ships/standard_ship'
+require './ships/quick_ship'
+require './ships/arilou'
 
 class GameWindow < Gosu::Window
   WIDTH = (Gosu.screen_width * 0.9).round

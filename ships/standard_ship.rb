@@ -1,5 +1,5 @@
-require './ship'
-require './slow_shot'
+require './ships/ship'
+require './weapons/slow_shot'
 
 class StandardShip < Ship
   def image_offset

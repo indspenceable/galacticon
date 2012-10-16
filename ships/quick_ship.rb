@@ -1,29 +1,26 @@
-require './ship'
-require './quick_shot'
+require './ships/ship'
+require './weapons/quick_shot'
 
-class Arilou < StandardShip
+class QuickShip < Ship
   # TODO override these methods
   def image_offset
-    1
+    60
   end
   def turn_speed
     6
   end
   def acceleration
-    8
-  end
-  def max_velocity
-    9.0
-  end
-  def move
-    super
-    @vel_x = 0
-    @vel_y = 0
+    0.3
   end
   def action1(window)
     shoot(window,QuickShot)
   end
   def action2(window)
-    warp(rand(@w), rand(@h))
+    @vel_x *= -0.5
+    @vel_y *= -0.5
+    @angle += 180
+  end
+  def max_velocity
+    6.0
   end
 end
