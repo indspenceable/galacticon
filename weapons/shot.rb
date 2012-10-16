@@ -4,6 +4,7 @@ class Shot
     @effects = window.effects
     @owner = owner
     @w,@h = window.width, window.height
+    @window = window
   end
   def warp(x, y, angle)
     self.x = x
@@ -55,6 +56,7 @@ class Shot
 
   # Depends on:
   # image_offset
+  # team_offset
   # speed
   # duration
 

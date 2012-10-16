@@ -78,7 +78,12 @@ class Ship
   def action2(window)
   end
   def action3(window)
-    shoot(window, Mine, @x, @y, 0)
+    if @bomb
+      @bomb.detonate!
+      @bomb = nil
+    else
+      @bomb = shoot(window, Bomb)
+    end
   end
 
   # DEPENDS ON:
