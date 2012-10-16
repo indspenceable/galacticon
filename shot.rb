@@ -1,7 +1,7 @@
 class Shot
   attr_accessor :x, :y, :angle
   def initialize(window, owner)
-    @image = window.effects[image_offset]
+    @effects = window.effects
     @owner = owner
     @w,@h = window.width, window.height
     @ticks = duration
@@ -18,7 +18,7 @@ class Shot
     @y %= @h
   end
   def draw
-    @image.draw_rot(@x, @y, 1, @angle)
+    @effects[@owner.shot_offset].draw_rot(@x, @y, 1, @angle)
   end
   def expired?
     ((@ticks -= 1) <= 0) || @hit
@@ -40,7 +40,7 @@ class Shot
     p.damage!(damage)
   end
   def r
-    10
+    20
   end
 
   # Depends on:

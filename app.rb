@@ -6,20 +6,23 @@ require './quick_ship'
 require './arilou'
 
 class GameWindow < Gosu::Window
-  WIDTH = 1280
-  HEIGHT = 960
+  WIDTH = (Gosu.screen_width * 0.9).round
+  HEIGHT = (Gosu.screen_height * 0.8).round
 
   def initialize
     super(WIDTH, HEIGHT, false)
     self.caption = "Gosu Tutorial Game"
 
     #@background_image = Gosu::Image.new(self, "media/Space.png", true)
+    ships = [StandardShip,QuickShip,Arilou]
 
     @players = []
-    @players << StandardShip.new(self)
+    @players << ships.sample.new(self, 0)
     @players[0].warp(320, 240)
-    @players << Arilou.new(self)
+    @players << ships.sample.new(self, 1)
     @players[1].warp(640, 480)
+    @players << ships.sample.new(self, 2)
+    @players[2].warp(780, 240)
   end
 
   def update
@@ -44,27 +47,29 @@ class GameWindow < Gosu::Window
   end
 
   def draw
-    @players.each_with_index do |p, i|
+    @players.each do |p|
       p.draw
       width  = p.hull
-      height = 10
+      height = 30
 
-      x,y = case i
+      x, y, color = case p.team
         when 0
-          [0,0]
+          [0,0, Gosu::Color::RED]
         when 1
-          [WIDTH - Ship::MAX_HULL, 0]
+          [WIDTH - Ship::MAX_HULL, 0, Gosu::Color::GREEN]
         when 2
-          [0, HEIGHT - height]
+          [0, HEIGHT - height, Gosu::Color::BLUE]
         when 3
-          [WIDTH - Ship::MAX_HULL, HEIGHT - height]
+          [WIDTH - Ship::MAX_HULL, HEIGHT - height, Gosu::Color::MAGENTA]
       end
 
+      #puts color.inspect, Gosu::Color::RED
+
       draw_quad(
-                x,          y, Gosu::Color::RED,
-        x + width,          y, Gosu::Color::RED,
-                x, y + height, Gosu::Color::RED,
-        x + width, y + height, Gosu::Color::RED
+                x,          y, color,
+        x + width,          y, color,
+                x, y + height, color,
+        x + width, y + height, color
       )
     end
     @shots.each(&:draw)
@@ -91,7 +96,7 @@ class GameWindow < Gosu::Window
 
   # utility functions
   def ship_images
-    @ship_images ||= Gosu::Image.load_tiles(self, "ships.png", 26, 18, false)
+    @ship_images ||= Gosu::Image.load_tiles(self, "ships.png", 26*2, 18*2, false)
   end
   def effects
     @effects ||= Gosu::Image.load_tiles(self, "effects.png", 24, 24, false)

@@ -1,16 +1,22 @@
 require './shot'
 
 class Ship
-  attr_reader :x, :y, :hull
+  attr_reader :x, :y, :hull, :team
 
   MAX_HULL = 100
 
-  def initialize(window)
+  def initialize(window, team)
     @w,@h = window.width, window.height
     @image = window.ship_images[image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @shots = window.shots
     @hull = MAX_HULL
+
+    @team = team
+  end
+
+  def shot_offset
+    16*13 + 4 + 8*team
   end
 
   def damage! amt
