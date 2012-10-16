@@ -4,7 +4,6 @@ class Shot
     @effects = window.effects
     @owner = owner
     @w,@h = window.width, window.height
-    @ticks = duration
   end
   def warp(x, y, angle)
     self.x = x
@@ -18,10 +17,18 @@ class Shot
     @y %= @h
   end
   def draw
-    @effects[@owner.shot_offset].draw_rot(@x, @y, 1, @angle)
+    @effects[image_offset + team_offset*@owner.team].draw_rot(@x, @y, 1, @angle)
   end
+  def hit?
+    !!@hit
+  end
+  def timed_out?
+    @ticks ||= duration
+    ((@ticks -= 1) <= 0)
+  end
+
   def expired?
-    ((@ticks -= 1) <= 0) || @hit
+    timed_out? || hit?
   end
   def check_for_collisions! ships
     ships.each do |p|
@@ -35,9 +42,12 @@ class Shot
       end
     end
   end
+  def team_offset
+    8
+  end
 
-  def collide!(p)
-    p.damage!(damage)
+  def collide!(ship)
+    ship.damage!(damage)
   end
   def r
     20

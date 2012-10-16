@@ -1,3 +1,5 @@
+require './weapons/bomb'
+
 class Ship
   attr_reader :x, :y, :hull, :team
 
@@ -76,6 +78,7 @@ class Ship
   def action2(window)
   end
   def action3(window)
+    shoot(window, Mine, @x, @y, 0)
   end
 
   # DEPENDS ON:

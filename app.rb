@@ -89,7 +89,7 @@ class GameWindow < Gosu::Window
       when Gosu::const_get(:"Gp#{i}Button2")
         p.action2(self)
       when Gosu::const_get(:"Gp#{i}Button3")
-        p.action2(self)
+        p.action3(self)
       end
     end
   end

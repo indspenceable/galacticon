@@ -2,7 +2,7 @@ require './weapons/shot'
 
 class QuickShot < Shot
   def image_offset
-    14*15+18
+    14*15-2
   end
   def speed
     9
