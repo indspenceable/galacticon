@@ -1,31 +1,29 @@
 require './weapons/bomb_launcher'
 
 class Ship
-  attr_reader :x, :y, :hull, :team, :timers
+  attr_reader :x, :y, :hull, :player, :timers
   attr_reader :primary, :secondary, :tertiary
 
   attr_accessor :vel_x, :vel_y, :angle
 
   MAX_HULL = 100
-  PLAYER_COLORS = [
-    Gosu::Color::RED,
-    Gosu::Color::GREEN,
-    Gosu::Color::BLUE,
-    Gosu::Color::FUCHSIA
-  ]
 
-  def initialize(window, team)
+  def initialize(window, player)
     @w,@h = window.width, window.height
     @image = window.ship_images[image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @hull = MAX_HULL
 
-    @team = team
+    #@team = team
+    @player = player
     @timers = Hash.new(0)
 
     @font = Gosu::Font.new(window, "Verdana", 24)
 
     @tertiary = BombLauncher.new(self, window.shots)
+  end
+  def team
+    player.team
   end
 
   def tick
@@ -36,7 +34,7 @@ class Ship
   end
 
   def color
-    PLAYER_COLORS[team]
+    player.color
   end
 
   def shot_offset
