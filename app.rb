@@ -25,7 +25,7 @@ class GameWindow < Gosu::Window
     @players[2].warp(780, 240)
   end
 
-  def update
+  def process_button_presses_for_players!
     @players.each_with_index do |p,i|
       if button_down? Gosu::const_get(:"Gp#{i}Left")
         p.turn_left
@@ -38,6 +38,11 @@ class GameWindow < Gosu::Window
       end
       p.move
     end
+  end
+
+  def update
+    process_button_presses_for_players!
+    @players.reject!(&:expired?)
 
     @shots.each(&:move)
     @shots.each do |s|
@@ -46,32 +51,34 @@ class GameWindow < Gosu::Window
     @shots.reject!(&:expired?)
   end
 
-  def draw
-    @players.each do |p|
-      p.draw
-      width  = p.hull
-      height = 30
+  def draw_player p
+    width  = p.hull
+    height = 30
 
-      x, y, color = case p.team
-        when 0
-          [0,0, Gosu::Color::RED]
-        when 1
-          [WIDTH - Ship::MAX_HULL, 0, Gosu::Color::GREEN]
-        when 2
-          [0, HEIGHT - height, Gosu::Color::BLUE]
-        when 3
-          [WIDTH - Ship::MAX_HULL, HEIGHT - height, Gosu::Color::MAGENTA]
-      end
-
-      #puts color.inspect, Gosu::Color::RED
-
-      draw_quad(
-                x,          y, color,
-        x + width,          y, color,
-                x, y + height, color,
-        x + width, y + height, color
-      )
+    x, y, color = case p.team
+      when 0
+        [0,0, Gosu::Color::RED]
+      when 1
+        [WIDTH - Ship::MAX_HULL, 0, Gosu::Color::GREEN]
+      when 2
+        [0, HEIGHT - height, Gosu::Color::BLUE]
+      when 3
+        [WIDTH - Ship::MAX_HULL, HEIGHT - height, Gosu::Color::MAGENTA]
     end
+
+    #puts color.inspect, Gosu::Color::RED
+
+    draw_quad(
+              x,          y, color,
+      x + width,          y, color,
+              x, y + height, color,
+      x + width, y + height, color
+    )
+  end
+
+  def draw
+    @players.each(&:draw)
+    @players.each { |p| draw_player p }
     @shots.each(&:draw)
     #@background_image.draw(0, 0, 0);
   end

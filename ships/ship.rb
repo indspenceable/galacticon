@@ -67,6 +67,10 @@ class Ship
     @image.draw_rot(@x, @y, 1, @angle)
   end
 
+  def expired?
+    @hull <= 0
+  end
+
   def shoot(window, shot, x=@x, y=@y, angle=@angle)
     shot.new(window, self).tap do |s|
       s.warp(x, y, angle)
