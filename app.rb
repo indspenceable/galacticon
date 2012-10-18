@@ -16,8 +16,6 @@ class GameWindow < Gosu::Window
     self.caption = "Gosu Tutorial Game"
     setup_ships!
 
-
-
     @font = Gosu::Font.new(self, "Verdana", 24)
   end
 
@@ -111,8 +109,10 @@ class GameWindow < Gosu::Window
     @players.each(&:draw)
     @players.each { |p| draw_player p }
     @shots.each(&:draw)
-
-    @font.draw_rel("Next game in: #{@time_between_games/100}...",WIDTH/2,HEIGHT/2,1,0.5,0.5) if between_games?
+    if between_games?
+      @font.draw_rel("Player #{@players.first.team} wins!",WIDTH/2,HEIGHT/2-24,1,0.5,0.5)
+      @font.draw_rel("Next game in: #{@time_between_games/100}...",WIDTH/2,HEIGHT/2,1,0.5,0.5)
+    end
   end
 
   #TODO can we factor this out to the ships?
