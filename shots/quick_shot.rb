@@ -5,10 +5,10 @@ class QuickShot < Shot
     14*15-2
   end
   def speed
-    9
+    10
   end
   def duration
-    50
+    40
   end
   def damage
     3

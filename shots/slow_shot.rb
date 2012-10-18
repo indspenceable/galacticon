@@ -8,7 +8,7 @@ class SlowShot < Shot
     6
   end
   def duration
-    200
+    75
   end
   def damage
     10

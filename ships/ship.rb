@@ -1,7 +1,7 @@
 require './weapons/bomb_launcher'
 
 class Ship
-  attr_reader :x, :y, :hull, :team
+  attr_reader :x, :y, :hull, :team, :timers
   attr_reader :primary, :secondary, :tertiary
 
   attr_accessor :vel_x, :vel_y, :angle
@@ -21,10 +21,18 @@ class Ship
     @hull = MAX_HULL
 
     @team = team
+    @timers = Hash.new(0)
 
     @font = Gosu::Font.new(window, "Verdana", 24)
 
     @tertiary = BombLauncher.new(self, window.shots)
+  end
+
+  def tick
+    move
+    @timers.each do |k,v|
+      @timers[k] -= 1 if @timers[k] > 0
+    end
   end
 
   def color

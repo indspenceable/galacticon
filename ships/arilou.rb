@@ -6,7 +6,7 @@ class Arilou < StandardShip
   def initialize(window, team)
     super
     @primary = LightCannon.new(self, window.shots)
-    @secondary = Teleporter.new(self)
+    @secondary = Teleporter.new(self, window.shots)
   end
 
   # TODO override these methods

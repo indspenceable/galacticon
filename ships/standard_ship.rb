@@ -11,7 +11,7 @@ class StandardShip < Ship
     1
   end
   def turn_speed
-    4.5
+    2
   end
   def acceleration
     0.1

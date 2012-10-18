@@ -52,7 +52,16 @@ class GameWindow < Gosu::Window
       if button_down? Gosu::const_get(:"Gp#{p.team}Button1")
         p.accelerate
       end
-      p.move
+      if button_down? Gosu::const_get(:"Gp#{p.team}Button0")
+        p.primary.attempt_activate!(self)
+      end
+      if button_down? Gosu::const_get(:"Gp#{p.team}Button2")
+        p.secondary.attempt_activate!(self)
+      end
+      if button_down? Gosu::const_get(:"Gp#{p.team}Button3")
+        p.tertiary.attempt_activate!(self)
+      end
+      p.tick
     end
   end
 
@@ -120,17 +129,6 @@ class GameWindow < Gosu::Window
   def button_down(id)
     if id == Gosu::KbEscape
       close
-    end
-
-    @players.each_with_index do |p|
-      case id
-      when Gosu::const_get(:"Gp#{p.team}Button0")
-        p.primary.activate!(self)
-      when Gosu::const_get(:"Gp#{p.team}Button2")
-        p.secondary.activate!(self)
-      when Gosu::const_get(:"Gp#{p.team}Button3")
-        p.tertiary.activate!(self)
-      end
     end
   end
 

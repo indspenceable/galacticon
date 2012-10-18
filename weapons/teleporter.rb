@@ -1,8 +1,10 @@
-class Teleporter
-  def initialize ship
-    @ship = ship
-  end
+require './weapons/simple_weapon'
+
+class Teleporter < SimpleWeapon
   def activate! window
     @ship.warp(rand(window.width), rand(window.height))
+  end
+  def cooldown
+    100
   end
 end

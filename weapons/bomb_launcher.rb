@@ -1,7 +1,7 @@
-require './weapons/weapon'
+require './weapons/simple_weapon'
 require './shots/bomb'
 
-class BombLauncher < Weapon
+class BombLauncher < SimpleWeapon
   def activate! window
     if @bomb
       @bomb.detonate!
@@ -9,5 +9,8 @@ class BombLauncher < Weapon
     else
       @bomb = shoot!(window, Bomb)
     end
+  end
+  def cooldown
+    100
   end
 end

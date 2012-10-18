@@ -1,8 +1,11 @@
-require './weapons/weapon'
+require './weapons/simple_weapon'
 require './shots/quick_shot'
 
-class LightCannon < Weapon
-  def activate! window
-    shoot!(window, QuickShot)
+class LightCannon < SimpleWeapon
+  def bullet_klass
+    QuickShot
+  end
+  def cooldown
+    5
   end
 end

@@ -1,8 +1,11 @@
-require './weapons/weapon'
+require './weapons/simple_weapon'
 require './shots/slow_shot'
 
-class HeavyCannon < Weapon
-  def activate! window
-    shoot!(window, SlowShot)
+class HeavyCannon < SimpleWeapon
+  def bullet_klass
+    SlowShot
+  end
+  def cooldown
+    35
   end
 end

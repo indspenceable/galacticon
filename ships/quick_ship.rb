@@ -6,7 +6,7 @@ class QuickShip < Ship
   def initialize(window, team)
     super
     @primary = LightCannon.new(self, window.shots)
-    @secondary = ReverseThrusters.new(self)
+    @secondary = ReverseThrusters.new(self, window.shots)
   end
 
   # TODO override these methods
