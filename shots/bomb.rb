@@ -1,5 +1,5 @@
-require './weapons/shot'
-require './weapons/shrapnel'
+require './shots/shot'
+require './shots/shrapnel'
 
 class Bomb < Shot
   def initialize(window, owner)

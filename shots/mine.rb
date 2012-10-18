@@ -1,4 +1,4 @@
-require './weapons/shot'
+require './shots/shot'
 
 class Mine < Shot
   def image_offset

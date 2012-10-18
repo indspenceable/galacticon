@@ -1,5 +1,5 @@
 require './ships/ship'
-require './weapons/quick_shot'
+require './shots/quick_shot'
 
 class QuickShip < Ship
   # TODO override these methods

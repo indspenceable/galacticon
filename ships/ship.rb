@@ -1,4 +1,4 @@
-require './weapons/bomb'
+require './shots/bomb'
 
 class Ship
   attr_reader :x, :y, :hull, :team
