@@ -128,7 +128,7 @@ class GameWindow < Gosu::Window
       when Gosu::const_get(:"Gp#{p.team}Button2")
         p.action2(self)
       when Gosu::const_get(:"Gp#{p.team}Button3")
-        p.action3(self)
+        p.tertiary.activate(self)
       end
     end
   end

@@ -1,7 +1,9 @@
-require './shots/bomb'
+require './weapons/bomb_launcher'
 
 class Ship
-  attr_reader :x, :y, :hull, :team
+  attr_reader :x, :y, :angle, :hull, :team
+
+  attr_reader :tertiary
 
   MAX_HULL = 100
   PLAYER_COLORS = [
@@ -15,12 +17,15 @@ class Ship
     @w,@h = window.width, window.height
     @image = window.ship_images[image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
+    #TODO remove this.
     @shots = window.shots
     @hull = MAX_HULL
 
     @team = team
 
     @font = Gosu::Font.new(window, "Verdana", 24)
+
+    @tertiary = BombLauncher.new(self, window.shots)
   end
 
   def color
@@ -92,12 +97,7 @@ class Ship
   def action2(window)
   end
   def action3(window)
-    if @bomb
-      @bomb.detonate!
-      @bomb = nil
-    else
-      @bomb = shoot(window, Bomb)
-    end
+
   end
 
   # DEPENDS ON:
