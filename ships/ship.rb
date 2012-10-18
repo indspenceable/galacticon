@@ -79,7 +79,7 @@ class Ship
   def draw
     @image.draw_rot(@x, @y, 1, @angle)
     # @name_label.draw_as_quad(@x-5,@y-15, color, @x+5, @y-15, color, @x-5, @y-5, color, @x+5, @y-5, color, 1)
-    @font.draw(@team.to_s,@x-5,@y-45,1,1,1,color)
+    @font.draw_rel(@team.to_s,@x,@y-45,1,0.5,0.5,1,1,color)
   end
 
   def expired?

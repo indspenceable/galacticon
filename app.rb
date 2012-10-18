@@ -112,7 +112,7 @@ class GameWindow < Gosu::Window
     @players.each { |p| draw_player p }
     @shots.each(&:draw)
 
-    @font.draw("Next game in: #{@time_between_games/100}...",WIDTH/2,HEIGHT/2,1) if between_games?
+    @font.draw_rel("Next game in: #{@time_between_games/100}...",WIDTH/2,HEIGHT/2,1,0.5,0.5) if between_games?
   end
 
   #TODO can we factor this out to the ships?
