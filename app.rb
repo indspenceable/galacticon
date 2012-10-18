@@ -34,14 +34,14 @@ class GameWindow < Gosu::Window
   end
 
   def process_button_presses_for_players!
-    @players.each_with_index do |p,i|
-      if button_down? Gosu::const_get(:"Gp#{i}Left")
+    @players.each do |p|
+      if button_down? Gosu::const_get(:"Gp#{p.team}Left")
         p.turn_left
       end
-      if button_down? Gosu::const_get(:"Gp#{i}Right")
+      if button_down? Gosu::const_get(:"Gp#{p.team}Right")
         p.turn_right
       end
-      if button_down? Gosu::const_get(:"Gp#{i}Button1")
+      if button_down? Gosu::const_get(:"Gp#{p.team}Button1")
         p.accelerate
       end
       p.move
@@ -105,13 +105,13 @@ class GameWindow < Gosu::Window
       close
     end
 
-    @players.each_with_index do |p,i|
+    @players.each_with_index do |p|
       case id
-      when Gosu::const_get(:"Gp#{i}Button0")
+      when Gosu::const_get(:"Gp#{p.team}Button0")
         p.action1(self)
-      when Gosu::const_get(:"Gp#{i}Button2")
+      when Gosu::const_get(:"Gp#{p.team}Button2")
         p.action2(self)
-      when Gosu::const_get(:"Gp#{i}Button3")
+      when Gosu::const_get(:"Gp#{p.team}Button3")
         p.action3(self)
       end
     end

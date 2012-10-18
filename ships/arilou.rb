@@ -4,7 +4,7 @@ require './weapons/quick_shot'
 class Arilou < StandardShip
   # TODO override these methods
   def image_offset
-    1
+    0
   end
   def turn_speed
     6
