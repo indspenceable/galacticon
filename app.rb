@@ -15,14 +15,16 @@ class GameWindow < Gosu::Window
     super(WIDTH, HEIGHT, false)
     self.caption = "Gosu Tutorial Game"
     setup_ships!
+
+
+
+    @font = Gosu::Font.new(self, "Verdana", 24)
   end
 
   def setup_ships!
-    @time_between_games = 0
+    @time_between_games = TIME_BETWEEN_GAMES
     @shots = []
-
-    #@background_image = Gosu::Image.new(self, "media/Space.png", true)
-    ships = [StandardShip,QuickShip]
+    ships = [StandardShip,QuickShip,Arilou]
 
     @players = []
     starting_locations = [
@@ -55,10 +57,13 @@ class GameWindow < Gosu::Window
     end
   end
 
-  def between_games
-    puts "Order of death is #{@order_of_death}" if @time_between_games == 0
-    @time_between_games += 1
-    setup_ships! if @time_between_games >= TIME_BETWEEN_GAMES
+  def between_games?
+     @players.length <= 1
+  end
+  def between_games!
+    puts "Order of death is #{@order_of_death}" if @time_between_games == TIME_BETWEEN_GAMES
+    @time_between_games -= 1
+    setup_ships! if @time_between_games <= 0
   end
 
   def update
@@ -68,7 +73,7 @@ class GameWindow < Gosu::Window
         @order_of_death << p.team
       end
     end
-    between_games if @players.length <= 1
+    between_games! if between_games?
 
     @shots.each(&:move)
     @shots.each do |s|
@@ -106,6 +111,8 @@ class GameWindow < Gosu::Window
     @players.each(&:draw)
     @players.each { |p| draw_player p }
     @shots.each(&:draw)
+
+    @font.draw("Next game in: #{@time_between_games/100}...",WIDTH/2,HEIGHT/2,1) if between_games?
   end
 
   #TODO can we factor this out to the ships?
