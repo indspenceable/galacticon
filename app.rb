@@ -26,10 +26,10 @@ class GameWindow < Gosu::Window
 
     @players = []
     starting_locations = [
-      [320, 240],
-      [640, 240],
-      [320, 480],
-      [640, 480]
+      [WIDTH/4 + WIDTH/4*0, HEIGHT/4 + HEIGHT/4*0],
+      [WIDTH/4 + WIDTH/4*2, HEIGHT/4 + HEIGHT/4*0],
+      [WIDTH/4 + WIDTH/4*0, HEIGHT/4 + HEIGHT/4*2],
+      [WIDTH/4 + WIDTH/4*2, HEIGHT/4 + HEIGHT/4*2],
     ]
     4.times do |n|
       klass = ARGV[n] ? Kernel.const_get(ARGV[n].to_sym) : ships.sample
