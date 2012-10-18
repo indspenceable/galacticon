@@ -21,7 +21,6 @@ class Ship
     @team = team
 
     @font = Gosu::Font.new(window, "Verdana", 24)
-    # @name_label = Gosu::Image.from_text(window, "@team.to_s", font, 12, 0, 100, :left)
   end
 
   def color
@@ -71,14 +70,10 @@ class Ship
     @y += @vel_y
     @x %= @w
     @y %= @h
-
-    # @vel_x *= 0.95
-    # @vel_y *= 0.95
   end
 
   def draw
     @image.draw_rot(@x, @y, 1, @angle)
-    # @name_label.draw_as_quad(@x-5,@y-15, color, @x+5, @y-15, color, @x-5, @y-5, color, @x+5, @y-5, color, 1)
     @font.draw_rel(@team.to_s,@x,@y-45,1,0.5,0.5,1,1,color)
   end
 
