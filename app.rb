@@ -63,7 +63,7 @@ class GameWindow < Gosu::Window
       when 2
         [0, HEIGHT - height, Gosu::Color::BLUE]
       when 3
-        [WIDTH - Ship::MAX_HULL, HEIGHT - height, Gosu::Color::MAGENTA]
+        [WIDTH - Ship::MAX_HULL, HEIGHT - height, Gosu::Color::FUCHSIA]
     end
 
     #puts color.inspect, Gosu::Color::RED
