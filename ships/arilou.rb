@@ -1,7 +1,14 @@
 require './ships/ship'
-require './shots/quick_shot'
+require './weapons/light_cannon'
+require './weapons/teleporter'
 
 class Arilou < StandardShip
+  def initialize(window, team)
+    super
+    @primary = LightCannon.new(self, window.shots)
+    @secondary = Teleporter.new(self)
+  end
+
   # TODO override these methods
   def image_offset
     0
@@ -19,11 +26,5 @@ class Arilou < StandardShip
     super
     @vel_x = 0
     @vel_y = 0
-  end
-  def action1(window)
-    shoot(window,QuickShot)
-  end
-  def action2(window)
-    warp(rand(@w), rand(@h))
   end
 end

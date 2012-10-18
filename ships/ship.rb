@@ -1,9 +1,10 @@
 require './weapons/bomb_launcher'
 
 class Ship
-  attr_reader :x, :y, :angle, :hull, :team
+  attr_reader :x, :y, :hull, :team
+  attr_reader :primary, :secondary, :tertiary
 
-  attr_reader :tertiary
+  attr_accessor :vel_x, :vel_y, :angle
 
   MAX_HULL = 100
   PLAYER_COLORS = [
@@ -17,8 +18,6 @@ class Ship
     @w,@h = window.width, window.height
     @image = window.ship_images[image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
-    #TODO remove this.
-    @shots = window.shots
     @hull = MAX_HULL
 
     @team = team
@@ -29,7 +28,7 @@ class Ship
   end
 
   def color
-    PLAYER_COLORS[@team]
+    PLAYER_COLORS[team]
   end
 
   def shot_offset
@@ -79,25 +78,11 @@ class Ship
 
   def draw
     @image.draw_rot(@x, @y, 1, @angle)
-    @font.draw_rel(@team.to_s,@x,@y-45,1,0.5,0.5,1,1,color)
+    @font.draw_rel(team.to_s,@x,@y-45,1,0.5,0.5,1,1,color)
   end
 
   def expired?
     @hull <= 0
-  end
-
-  def shoot(window, shot, x=@x, y=@y, angle=@angle)
-    shot.new(window, self).tap do |s|
-      s.warp(x, y, angle)
-      @shots << s
-    end
-  end
-  def action1(window)
-  end
-  def action2(window)
-  end
-  def action3(window)
-
   end
 
   # DEPENDS ON:

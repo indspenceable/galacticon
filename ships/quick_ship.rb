@@ -1,7 +1,14 @@
 require './ships/ship'
-require './shots/quick_shot'
+require './weapons/light_cannon'
+require './weapons/reverse_thrusters'
 
 class QuickShip < Ship
+  def initialize(window, team)
+    super
+    @primary = LightCannon.new(self, window.shots)
+    @secondary = ReverseThrusters.new(self)
+  end
+
   # TODO override these methods
   def image_offset
     60
@@ -11,14 +18,6 @@ class QuickShip < Ship
   end
   def acceleration
     0.3
-  end
-  def action1(window)
-    shoot(window,QuickShot)
-  end
-  def action2(window)
-    @vel_x *= -0.5
-    @vel_y *= -0.5
-    @angle += 180
   end
   def max_velocity
     6.0

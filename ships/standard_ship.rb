@@ -1,7 +1,12 @@
 require './ships/ship'
-require './shots/slow_shot'
+require './weapons/heavy_cannon'
 
 class StandardShip < Ship
+  def initialize(window, team)
+    super
+    @primary = @secondary = HeavyCannon.new(self, window.shots)
+    #@secondary = HeavyCannon.new(self, window.shots)
+  end
   def image_offset
     1
   end
@@ -10,13 +15,6 @@ class StandardShip < Ship
   end
   def acceleration
     0.1
-  end
-  def action1(window)
-    shoot(window,SlowShot)
-  end
-  def action2(window)
-    shoot(window,SlowShot, @x+Gosu::offset_x(@angle+90,  10), @y+Gosu::offset_y(@angle+90,  10))
-    shoot(window,SlowShot, @x+Gosu::offset_x(@angle+90, -10), @y+Gosu::offset_y(@angle+90, -10))
   end
   def max_velocity
     8.0

@@ -37,6 +37,7 @@ class GameWindow < Gosu::Window
       ship.warp(*starting_locations[n])
       @players << ship
     end
+
     @order_of_death = []
   end
 
@@ -124,11 +125,11 @@ class GameWindow < Gosu::Window
     @players.each_with_index do |p|
       case id
       when Gosu::const_get(:"Gp#{p.team}Button0")
-        p.action1(self)
+        p.primary.activate!(self)
       when Gosu::const_get(:"Gp#{p.team}Button2")
-        p.action2(self)
+        p.secondary.activate!(self)
       when Gosu::const_get(:"Gp#{p.team}Button3")
-        p.tertiary.activate(self)
+        p.tertiary.activate!(self)
       end
     end
   end
