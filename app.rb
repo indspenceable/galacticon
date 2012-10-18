@@ -14,15 +14,23 @@ class GameWindow < Gosu::Window
     self.caption = "Gosu Tutorial Game"
 
     #@background_image = Gosu::Image.new(self, "media/Space.png", true)
-    ships = [StandardShip,QuickShip,Arilou]
+    ships = [StandardShip,QuickShip]
 
     @players = []
-    @players << ships.sample.new(self, 0)
-    @players[0].warp(320, 240)
-    @players << ships.sample.new(self, 1)
-    @players[1].warp(640, 480)
-    @players << ships.sample.new(self, 2)
-    @players[2].warp(780, 240)
+    starting_locations = [
+      [320, 240],
+      [640, 240],
+      [320, 480],
+      [640, 480]
+    ]
+    4.times do |n|
+      klass = ARGV[n] ? Kernel.const_get(ARGV[n].to_sym) : ships.sample
+      ship = klass.new(self, n)
+      ship.warp(*starting_locations[n])
+      @players << ship
+    end
+
+    @order_of_death = []
   end
 
   def process_button_presses_for_players!
@@ -42,7 +50,15 @@ class GameWindow < Gosu::Window
 
   def update
     process_button_presses_for_players!
-    @players.reject!(&:expired?)
+    @players.reject! do |p|
+      if p.expired?
+        @order_of_death << p.team
+      end
+    end
+    if @players.length <= 1
+      puts "Order of death is #{@order_of_death}"
+      close
+    end
 
     @shots.each(&:move)
     @shots.each do |s|
