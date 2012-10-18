@@ -4,6 +4,12 @@ class Ship
   attr_reader :x, :y, :hull, :team
 
   MAX_HULL = 100
+  PLAYER_COLORS = [
+    Gosu::Color::RED,
+    Gosu::Color::GREEN,
+    Gosu::Color::BLUE,
+    Gosu::Color::FUCHSIA
+  ]
 
   def initialize(window, team)
     @w,@h = window.width, window.height
@@ -13,6 +19,13 @@ class Ship
     @hull = MAX_HULL
 
     @team = team
+
+    @font = Gosu::Font.new(window, "Verdana", 24)
+    # @name_label = Gosu::Image.from_text(window, "@team.to_s", font, 12, 0, 100, :left)
+  end
+
+  def color
+    PLAYER_COLORS[@team]
   end
 
   def shot_offset
@@ -65,6 +78,8 @@ class Ship
 
   def draw
     @image.draw_rot(@x, @y, 1, @angle)
+    # @name_label.draw_as_quad(@x-5,@y-15, color, @x+5, @y-15, color, @x-5, @y-5, color, @x+5, @y-5, color, 1)
+    @font.draw(@team.to_s,@x-5,@y-45,1,1,1,color)
   end
 
   def expired?

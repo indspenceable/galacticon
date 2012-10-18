@@ -11,7 +11,6 @@ class GameWindow < Gosu::Window
   TIME_BETWEEN_GAMES = 1000
   attr_reader :shots
 
-
   def initialize
     super(WIDTH, HEIGHT, false)
     self.caption = "Gosu Tutorial Game"
