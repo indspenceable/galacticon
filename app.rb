@@ -8,10 +8,19 @@ require './ships/arilou'
 class GameWindow < Gosu::Window
   WIDTH = (Gosu.screen_width * 0.9).round
   HEIGHT = (Gosu.screen_height * 0.8).round
+  TIME_BETWEEN_GAMES = 1000
+  attr_reader :shots
+
 
   def initialize
     super(WIDTH, HEIGHT, false)
     self.caption = "Gosu Tutorial Game"
+    setup_ships!
+  end
+
+  def setup_ships!
+    @time_between_games = 0
+    @shots = []
 
     #@background_image = Gosu::Image.new(self, "media/Space.png", true)
     ships = [StandardShip,QuickShip]
@@ -29,7 +38,6 @@ class GameWindow < Gosu::Window
       ship.warp(*starting_locations[n])
       @players << ship
     end
-
     @order_of_death = []
   end
 
@@ -48,6 +56,12 @@ class GameWindow < Gosu::Window
     end
   end
 
+  def between_games
+    puts "Order of death is #{@order_of_death}" if @time_between_games == 0
+    @time_between_games += 1
+    setup_ships! if @time_between_games >= TIME_BETWEEN_GAMES
+  end
+
   def update
     process_button_presses_for_players!
     @players.reject! do |p|
@@ -55,10 +69,7 @@ class GameWindow < Gosu::Window
         @order_of_death << p.team
       end
     end
-    if @players.length <= 1
-      puts "Order of death is #{@order_of_death}"
-      close
-    end
+    between_games if @players.length <= 1
 
     @shots.each(&:move)
     @shots.each do |s|
@@ -96,7 +107,6 @@ class GameWindow < Gosu::Window
     @players.each(&:draw)
     @players.each { |p| draw_player p }
     @shots.each(&:draw)
-    #@background_image.draw(0, 0, 0);
   end
 
   #TODO can we factor this out to the ships?
@@ -124,11 +134,6 @@ class GameWindow < Gosu::Window
   def effects
     @effects ||= Gosu::Image.load_tiles(self, "effects.png", 24, 24, false)
   end
-  def shots
-    @shots ||= []
-  end
-
-
 end
 
 window = GameWindow.new
