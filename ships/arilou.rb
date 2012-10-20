@@ -3,10 +3,10 @@ require './weapons/light_cannon'
 require './weapons/teleporter'
 
 class Arilou < StandardShip
-  def initialize(window, team)
+  def initialize(window, battle, team)
     super
-    @primary = LightCannon.new(self, window.shots)
-    @secondary = Teleporter.new(self, window.shots)
+    @primary = LightCannon.new(self, battle.shots)
+    @secondary = Teleporter.new(self, battle.shots)
   end
 
   # TODO override these methods

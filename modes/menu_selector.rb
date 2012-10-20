@@ -6,7 +6,7 @@ class MenuSelector
   MENUS = [
     [:select_ship,    Player::SHIPS],
     [:config_buttons, Player::BUTTONS],
-    [:ready,          [false, true]]
+    [:ready,          [true,false]]
   ]
   def current_menu_option
     current_menu_options[@current_menu_selections[@current_menu]]
@@ -37,6 +37,8 @@ class MenuSelector
 
     @current_menu = 0
     @current_menu_selections = Array.new(MENUS.length) { 0 }
+    @current_menu_selections[2] += 1 if team == 0
+    @current_menu_selections[0] = Player::SHIPS.index(@player.ship_klass)
   end
 
   def team

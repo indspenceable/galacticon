@@ -24,11 +24,8 @@ class Player
     AgileShip
   ]
 
-  def color
-    COLORS[team]
-  end
-
-  attr_reader :team, :ship_klass
+  attr_reader :team, :points
+  attr_accessor :ship_klass
   def initialize team
     @team = team
     @current_button = 0
@@ -44,12 +41,19 @@ class Player
     }
     @current_menu = 0
     @ship_klass = nil
+    @points = 0
   end
 
+  def color
+    COLORS[team]
+  end
   def bind_action_to_button action, button
     @bindings[action] = button
   end
   def key_binding(action)
     @bindings[action]
+  end
+  def score! p
+    @points += p
   end
 end

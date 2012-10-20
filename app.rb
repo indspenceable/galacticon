@@ -22,18 +22,6 @@ class GameWindow < Gosu::Window
     @mode = MenuMode.new(self, @players)
   end
 
-  def process_button_presses_for_players!
-    @ships.each do |s|
-      s.turn_left                         if button_down? s.player.key_binding(:left)
-      s.turn_right                        if button_down? s.player.key_binding(:right)
-      s.accelerate                        if button_down? s.player.key_binding(:accelerate)
-      s.primary.attempt_activate!(self)   if button_down? s.player.key_binding(:primary)
-      s.secondary.attempt_activate!(self) if button_down? s.player.key_binding(:secondary)
-      s.tertiary.attempt_activate!(self)  if button_down? s.player.key_binding(:tertiary)
-      s.tick
-    end
-  end
-
   def in_game?
     !@between_games
   end

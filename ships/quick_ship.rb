@@ -3,10 +3,10 @@ require './weapons/light_cannon'
 require './weapons/reverse_thrusters'
 
 class QuickShip < Ship
-  def initialize(window, team)
+  def initialize(window, battle, team)
     super
-    @primary = LightCannon.new(self, window.shots)
-    @secondary = ReverseThrusters.new(self, window.shots)
+    @primary = LightCannon.new(self, battle.shots)
+    @secondary = ReverseThrusters.new(self, battle.shots)
   end
 
   # TODO override these methods

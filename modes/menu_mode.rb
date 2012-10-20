@@ -1,5 +1,5 @@
 require './modes/menu_selector'
-
+require './modes/battle'
 #ready?
 #current_menu
 #ship_klass
@@ -11,6 +11,7 @@ require './modes/menu_selector'
 class MenuMode
   attr_reader :selectors
   def initialize window, players
+    @players = players
     @selectors = players.map{|p| MenuSelector.new(p) }
     @window = window
   end
@@ -18,13 +19,14 @@ class MenuMode
   # lifted from window
   def update
     if selectors.select{ |p| !p.ready? }.empty?
-      setup_ships!
-      #@between_games = false
-      Battle.new(window, players)
+      selectors.each do |s|
+        s.player.ship_klass = s.ship_klass
+      end
+      Battle.new(@window, @players)
     end
   end
 
-def draw
+  def draw
     selectors.each do |selector|
       #puts "CURRENT MENU IS #{selector.current_menu}"
       y = 150*selector.team + 30
@@ -34,14 +36,14 @@ def draw
       @window.effects[effect_id].draw(x, y-20, 1) if selector.current_menu == :select_ship
       @window.ship_images[selector.ship_klass.image_offset].draw(x, y, 1) if selector.ship_klass
 
-      x = 100
-      @window.font.draw("Player #{selector.team}", x, y, 1, 1, 1)
-
       x = 200
+      @window.font.draw("Player #{selector.team} (#{selector.player.points})", x, y, 1, 1, 1)
+
+      x = 350
       @window.effects[effect_id].draw(x, y-20, 1) if selector.current_menu == :config_buttons
       @window.font.draw("Config Buttons #{selector.current_button}", x, y, 1, 1, 1)
 
-      x = 500
+      x = 600
       @window.effects[effect_id].draw(x, y-20, 1) if selector.current_menu == :ready
       @window.font.draw("Start#{selector.ready? ? '!' : '?'}", x, y, 1, 1, 1)
     end

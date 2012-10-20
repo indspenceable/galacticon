@@ -6,7 +6,7 @@ class LightCannon < SimpleWeapon
     QuickShot
   end
   def activate! window
-    shoot!(window, bullet_klass, @ship.x, @ship.y, @ship.angle + rand(11) - 5)
+    shoot!(window, bullet_klass, @ship.x, @ship.y, @ship.angle + rand(15) - 7)
   end
   def cooldown
     5

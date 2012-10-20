@@ -1,23 +1,23 @@
 class Battle
-  def initialize window, player_selections
+  attr_reader :shots
+  def initialize window, players
     @window = window
-  end
+    @players= players
+    #TODO add countdown to start of game.
 
-  #lifted from window
-  def setup_ships!
-    @time_between_games = TIME_BETWEEN_GAMES
+    #lifted from window
     @shots = []
-
     @ships = []
+
     starting_locations = [
-      [WIDTH/4 + WIDTH/4*0, HEIGHT/4 + HEIGHT/4*0],
-      [WIDTH/4 + WIDTH/4*2, HEIGHT/4 + HEIGHT/4*0],
-      [WIDTH/4 + WIDTH/4*0, HEIGHT/4 + HEIGHT/4*2],
-      [WIDTH/4 + WIDTH/4*2, HEIGHT/4 + HEIGHT/4*2],
+      [window.width/4 + window.width/4*0, window.height/4 + window.height/4*0,  135],
+      [window.width/4 + window.width/4*2, window.height/4 + window.height/4*0, -135],
+      [window.width/4 + window.width/4*0, window.height/4 + window.height/4*2,   45],
+      [window.width/4 + window.width/4*2, window.height/4 + window.height/4*2, - 45],
     ]
     @players.each do |p|
       klass = p.ship_klass || Player::SHIPS.compact.sample
-      ship = klass.new(self, p)
+      ship = klass.new(@window, self, p)
       ship.warp(*starting_locations[p.team])
       @ships << ship
     end
@@ -29,14 +29,8 @@ class Battle
     process_button_presses_for_players!
     @ships.reject! do |p|
       if p.expired?
-        @order_of_death << p.team
+        @order_of_death << p.player
       end
-    end
-    if @ships.size <= 1
-      @players.each do |p|
-        p.unready!
-      end
-      @between_games = true
     end
 
     @shots.each(&:move)
@@ -44,8 +38,39 @@ class Battle
       s.check_for_collisions!(@ships)
     end
     @shots.reject!(&:expired?)
+
+    if @ships.size <= 1
+      @order_of_death << @ships.first.player
+      @order_of_death.each_with_index do |p, i|
+        p.score!(i)
+      end
+      MenuMode.new(@window, @players)
+    end
   end
 
+
+  def draw
+    @ships.each(&:draw)
+    @ships.each { |p| draw_player p }
+    @shots.each(&:draw)
+  end
+
+  def button_down id
+  end
+
+  private
+
+  def process_button_presses_for_players!
+    @ships.each do |s|
+      s.turn_left                            if @window.button_down? s.player.key_binding(:left)
+      s.turn_right                           if @window.button_down? s.player.key_binding(:right)
+      s.accelerate                           if @window.button_down? s.player.key_binding(:accelerate)
+      s.primary.attempt_activate!(@window)   if @window.button_down? s.player.key_binding(:primary)
+      s.secondary.attempt_activate!(@window) if @window.button_down? s.player.key_binding(:secondary)
+      s.tertiary.attempt_activate!(@window)  if @window.button_down? s.player.key_binding(:tertiary)
+      s.tick
+    end
+  end
 
   def draw_player p
     total  = 100.0
@@ -56,26 +81,20 @@ class Battle
       when 0
         [0,0, Gosu::Color::RED]
       when 1
-        [WIDTH - total, 0, Gosu::Color::GREEN]
+        [@window.width - total, 0, Gosu::Color::GREEN]
       when 2
-        [0, HEIGHT - height, Gosu::Color::BLUE]
+        [0, @window.height - height, Gosu::Color::BLUE]
       when 3
-        [WIDTH - total, HEIGHT - height, Gosu::Color::FUCHSIA]
+        [@window.width - total,  @window.height - height, Gosu::Color::FUCHSIA]
     end
 
     #puts color.inspect, Gosu::Color::RED
 
-    draw_quad(
+    @window.draw_quad(
               x,          y, color,
       x + width,          y, color,
               x, y + height, color,
       x + width, y + height, color
     )
-  end
-
-  def draw_in_game
-    @ships.each(&:draw)
-    @ships.each { |p| draw_player p }
-    @shots.each(&:draw)
   end
 end

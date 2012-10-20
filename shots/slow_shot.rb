@@ -11,6 +11,6 @@ class SlowShot < Shot
     75
   end
   def damage
-    10
+    15
   end
 end

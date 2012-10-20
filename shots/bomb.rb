@@ -19,13 +19,13 @@ class Bomb < Shot
   end
   def check_for_collisions! ships
   end
-  def detonate!
+  def detonate!(shots)
     @detonated = true
     -1.upto(1) do |xo|
       -1.upto(1) do |yo|
         s = Shrapnel.new(@window, @owner)
         s.warp(x + xo*30, y + yo*30, angle)
-        @window.shots << s
+        shots << s
       end
     end
   end

@@ -6,19 +6,18 @@ class Ship
 
   attr_accessor :vel_x, :vel_y, :angle
 
-  def initialize(window, player)
+  def initialize(window, battle, player)
     @w,@h = window.width, window.height
     @image = window.ship_images[self.class.image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @hull = max_hull
 
-    #@team = team
     @player = player
     @timers = Hash.new(0)
 
     @font = Gosu::Font.new(window, "Verdana", 24)
 
-    @tertiary = BombLauncher.new(self, window.shots)
+    @tertiary = BombLauncher.new(self, battle.shots)
   end
   def team
     player.team
@@ -43,8 +42,8 @@ class Ship
     @hull -= amt
   end
 
-  def warp(x, y)
-    @x, @y = x, y
+  def warp(x, y, angle=@angle)
+    @x, @y, @angle = x, y, angle
   end
 
   def turn_left

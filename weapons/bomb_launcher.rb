@@ -4,7 +4,7 @@ require './shots/bomb'
 class BombLauncher < SimpleWeapon
   def activate! window
     if @bomb
-      @bomb.detonate!
+      @bomb.detonate!(@shots)
       @bomb = nil
     else
       @bomb = shoot!(window, Bomb)

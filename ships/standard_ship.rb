@@ -3,10 +3,10 @@ require './weapons/heavy_cannon'
 require './weapons/split_cannon'
 
 class StandardShip < Ship
-  def initialize(window, team)
+  def initialize(window, battle, team)
     super
-    @primary = HeavyCannon.new(self, window.shots)
-    @secondary = SplitCannon.new(self, window.shots)
+    @primary = HeavyCannon.new(self, battle.shots)
+    @secondary = SplitCannon.new(self, battle.shots)
   end
   def self.image_offset
     1
