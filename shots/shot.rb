@@ -54,6 +54,13 @@ class Shot
     20
   end
 
+  def ignore_hits?
+    true
+  end
+  def deals_damage?
+    true
+  end
+
   # Depends on:
   # image_offset
   # team_offset

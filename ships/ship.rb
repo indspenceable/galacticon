@@ -64,11 +64,9 @@ class Ship
   def limit_velocity!
     vel = velocity
     if vel > max_velocity
-      # puts "Limiting Velocity... #{@vel_x} #{@vel_y}"
       ratio = max_velocity / velocity
       @vel_x *= ratio
       @vel_y *= ratio
-      # puts "Limited Velocity... #{@vel_x} #{@vel_y}"
     end
   end
   def move

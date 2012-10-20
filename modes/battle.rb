@@ -35,6 +35,8 @@ class Battle
 
     @shots.each(&:move)
     @shots.each do |s|
+      collidables = @ships
+      collidables += @shots.reject(&:ignore_hits?) if s.deals_damage?
       s.check_for_collisions!(@ships)
     end
     @shots.reject!(&:expired?)
@@ -87,8 +89,6 @@ class Battle
       when 3
         [@window.width - total,  @window.height - height, Gosu::Color::FUCHSIA]
     end
-
-    #puts color.inspect, Gosu::Color::RED
 
     @window.draw_quad(
               x,          y, color,

@@ -29,4 +29,15 @@ class Bomb < Shot
       end
     end
   end
+
+  def damage *args
+    @detonated = true
+  end
+
+  def ignore_hits?
+    false
+  end
+  def deals_damage?
+    false
+  end
 end

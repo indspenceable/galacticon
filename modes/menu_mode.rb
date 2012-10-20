@@ -28,7 +28,6 @@ class MenuMode
 
   def draw
     selectors.each do |selector|
-      #puts "CURRENT MENU IS #{selector.current_menu}"
       y = 150*selector.team + 30
       effect_id = 16*(10+selector.team)
 
