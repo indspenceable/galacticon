@@ -37,7 +37,7 @@ class Battle
     @shots.each do |s|
       collidables = @ships
       collidables += @shots.reject(&:ignore_hits?) if s.deals_damage?
-      s.check_for_collisions!(@ships)
+      s.check_for_collisions!(collidables)
     end
     @shots.reject!(&:expired?)
 

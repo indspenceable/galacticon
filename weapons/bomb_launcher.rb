@@ -3,7 +3,7 @@ require './shots/bomb'
 
 class BombLauncher < SimpleWeapon
   def activate! window
-    if @bomb
+    if @bomb && !@bomb.expired?
       @bomb.detonate!(@shots)
       @bomb = nil
     else

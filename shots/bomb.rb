@@ -30,7 +30,7 @@ class Bomb < Shot
     end
   end
 
-  def damage *args
+  def damage! *args
     @detonated = true
   end
 

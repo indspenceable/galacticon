@@ -5,6 +5,7 @@ class Shot
     @owner = owner
     @w,@h = window.width, window.height
     @window = window
+    @ticks = duration
   end
   def warp(x, y, angle)
     self.x = x
@@ -24,8 +25,11 @@ class Shot
     !!@hit
   end
   def timed_out?
-    @ticks ||= duration
     ((@ticks -= 1) <= 0)
+  end
+
+  def team
+    @owner.team
   end
 
   def expired?
@@ -33,7 +37,7 @@ class Shot
   end
   def check_for_collisions! ships
     ships.each do |p|
-      if p != @owner &&
+      if p.team != team &&
         @x < p.x + r &&
         @x > p.x - r &&
         @y < p.y + r &&
@@ -60,11 +64,4 @@ class Shot
   def deals_damage?
     true
   end
-
-  # Depends on:
-  # image_offset
-  # team_offset
-  # speed
-  # duration
-
 end

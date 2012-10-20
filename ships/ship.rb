@@ -15,7 +15,7 @@ class Ship
     @player = player
     @timers = Hash.new(0)
 
-    @font = Gosu::Font.new(window, "Verdana", 24)
+    @font = window.font #Gosu::Font.new(window, "Verdana", 24)
 
     @tertiary = BombLauncher.new(self, battle.shots)
   end
