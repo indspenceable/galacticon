@@ -2,7 +2,6 @@ class SimpleWeapon
     def initialize ship, shots
     @ship = ship
     @shots = shots
-    @ticks_until_next_shot = 0
   end
   def shoot!(window, shot, x=@ship.x, y=@ship.y, angle=@ship.angle)
     shot.new(window, @ship).tap do |s|

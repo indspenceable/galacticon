@@ -7,9 +7,9 @@ class SplitCannon < SimpleWeapon
     shoot!(window, SlowShot, @ship.x, @ship.y, @ship.angle - 45)
   end
   def cooldown
-    35
+    70
   end
   def timer_name
-    :HeavyWeapon
+    :HeavyCannon
   end
 end
