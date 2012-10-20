@@ -11,6 +11,6 @@ class QuickShot < Shot
     40
   end
   def damage
-    3
+    1
   end
 end

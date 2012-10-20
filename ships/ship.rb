@@ -10,7 +10,7 @@ class Ship
 
   def initialize(window, player)
     @w,@h = window.width, window.height
-    @image = window.ship_images[image_offset]
+    @image = window.ship_images[self.class.image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @hull = MAX_HULL
 

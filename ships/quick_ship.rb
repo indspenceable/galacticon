@@ -10,7 +10,7 @@ class QuickShip < Ship
   end
 
   # TODO override these methods
-  def image_offset
+  def self.image_offset
     60
   end
   def turn_speed
