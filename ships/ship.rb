@@ -6,13 +6,11 @@ class Ship
 
   attr_accessor :vel_x, :vel_y, :angle
 
-  MAX_HULL = 100
-
   def initialize(window, player)
     @w,@h = window.width, window.height
     @image = window.ship_images[self.class.image_offset]
     @x = @y = @vel_x = @vel_y = @angle = 0.0
-    @hull = MAX_HULL
+    @hull = max_hull
 
     #@team = team
     @player = player
@@ -89,6 +87,10 @@ class Ship
 
   def expired?
     @hull <= 0
+  end
+
+  def max_hull
+    100
   end
 
   # DEPENDS ON:

@@ -2,6 +2,7 @@ require 'gosu'
 
 #classes
 
+require './modes/menu_mode'
 require './player'
 
 class GameWindow < Gosu::Window
@@ -18,27 +19,7 @@ class GameWindow < Gosu::Window
     @between_games = true
 
     @font = Gosu::Font.new(self, "Verdana", 24)
-  end
-
-  def setup_ships!
-    @time_between_games = TIME_BETWEEN_GAMES
-    @shots = []
-
-    @ships = []
-    starting_locations = [
-      [WIDTH/4 + WIDTH/4*0, HEIGHT/4 + HEIGHT/4*0],
-      [WIDTH/4 + WIDTH/4*2, HEIGHT/4 + HEIGHT/4*0],
-      [WIDTH/4 + WIDTH/4*0, HEIGHT/4 + HEIGHT/4*2],
-      [WIDTH/4 + WIDTH/4*2, HEIGHT/4 + HEIGHT/4*2],
-    ]
-    @players.each do |p|
-      klass = p.ship_klass || ships.sample
-      ship = klass.new(self, p)
-      ship.warp(*starting_locations[p.team])
-      @ships << ship
-    end
-
-    @order_of_death = []
+    @mode = MenuMode.new(self, @players)
   end
 
   def process_button_presses_for_players!
@@ -57,101 +38,12 @@ class GameWindow < Gosu::Window
     !@between_games
   end
 
-  #TODO this is obsolete
-  def between_games!
-    puts "Order of death is #{@order_of_death}" if @time_between_games == TIME_BETWEEN_GAMES
-    @time_between_games -= 1
-    setup_ships! if @time_between_games <= 0
-  end
-
-  def update_in_game
-    process_button_presses_for_players!
-    @ships.reject! do |p|
-      if p.expired?
-        @order_of_death << p.team
-      end
-    end
-    if @ships.size <= 1
-      @players.each do |p|
-        p.unready!
-      end
-      @between_games = true
-    end
-
-    @shots.each(&:move)
-    @shots.each do |s|
-      s.check_for_collisions!(@ships)
-    end
-    @shots.reject!(&:expired?)
-  end
-  def update_between_games
-    # DON"T NEED TO DO SHIT, PROBABALY.
-    if @players.select{ |p| !p.ready? }.empty?
-      setup_ships!
-      @between_games = false
-    end
-  end
-
   def update
-    in_game?? update_in_game : update_between_games
+    @mode = @mode.update || @mode
   end
 
-  def draw_player p
-    total  = 100.0
-    width = p.hull * (total/p.max_hull)
-    height = 30
-
-
-
-    x, y, color = case p.team
-      when 0
-        [0,0, Gosu::Color::RED]
-      when 1
-        [WIDTH - Ship::MAX_HULL, 0, Gosu::Color::GREEN]
-      when 2
-        [0, HEIGHT - height, Gosu::Color::BLUE]
-      when 3
-        [WIDTH - Ship::MAX_HULL, HEIGHT - height, Gosu::Color::FUCHSIA]
-    end
-
-    #puts color.inspect, Gosu::Color::RED
-
-    draw_quad(
-              x,          y, color,
-      x + width,          y, color,
-              x, y + height, color,
-      x + width, y + height, color
-    )
-  end
-
-  def draw_in_game
-    @ships.each(&:draw)
-    @ships.each { |p| draw_player p }
-    @shots.each(&:draw)
-  end
-  def draw_between_games
-    @players.each do |p|
-      y = 150*p.team + 30
-      effect_id = 16*(10+p.team)
-
-      x = 25
-      effects[effect_id].draw(x, y-20, 1) if p.current_menu == :select_ship
-      ship_images[p.ship_klass.image_offset].draw(x, y, 1) if p.ship_klass
-
-      x = 100
-      @font.draw("Player #{p.team}", x, y, 1, 1, 1)
-
-      x = 200
-      effects[effect_id].draw(x, y-20, 1) if p.current_menu == :config_buttons
-      @font.draw("Config Buttons #{p.current_button}", x, y, 1, 1, 1)
-
-      x = 500
-      effects[effect_id].draw(x, y-20, 1) if p.current_menu == :start
-      @font.draw("Start#{p.ready? ? '!' : '?'}", x, y, 1, 1, 1)
-    end
-  end
   def draw
-    in_game?? draw_in_game : draw_between_games
+    @mode.draw
   end
 
   #TODO can we factor this out to the ships?
@@ -159,37 +51,19 @@ class GameWindow < Gosu::Window
     if id == Gosu::KbEscape
       close
     end
-    button_down_between_games(id) unless in_game?
+    #button_down_between_games(id) unless in_game?
+    @mode.button_down(id)
   end
 
-  def button_down_between_games(id)
-    @players.each do |p|
-        if id == Gosu::const_get(:"Gp#{p.team}Up")
-          p.up!
-        elsif id == Gosu::const_get(:"Gp#{p.team}Left")
-          p.left!
-        elsif id == Gosu::const_get(:"Gp#{p.team}Right")
-          p.right!
-        elsif id == Gosu::const_get(:"Gp#{p.team}Down")
-          p.down!
-        end
-      if p.config_buttons?
-        #loop through each button they might press
-        15.times do |i|
-          if id == Gosu::const_get(:"Gp#{p.team}Button#{i}")
-            p.bind_current_action_to(id)
-          end
-        end
-      end
-    end
-  end
-
-  # utility functions
+  # TODO this should probably change.
   def ship_images
     @ship_images ||= Gosu::Image.load_tiles(self, "ships.png", 26*2, 18*2, false)
   end
   def effects
     @effects ||= Gosu::Image.load_tiles(self, "effects.png", 24, 24, false)
+  end
+  def font
+    @font
   end
 end
 

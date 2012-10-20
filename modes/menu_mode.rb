@@ -1,0 +1,70 @@
+require './modes/menu_selector'
+
+#ready?
+#current_menu
+#ship_klass
+#team
+#bind_current_action_to_id
+
+# up! down! left! right!
+
+class MenuMode
+  attr_reader :selectors
+  def initialize window, players
+    @selectors = players.map{|p| MenuSelector.new(p) }
+    @window = window
+  end
+
+  # lifted from window
+  def update
+    if selectors.select{ |p| !p.ready? }.empty?
+      setup_ships!
+      #@between_games = false
+      Battle.new(window, players)
+    end
+  end
+
+def draw
+    selectors.each do |selector|
+      #puts "CURRENT MENU IS #{selector.current_menu}"
+      y = 150*selector.team + 30
+      effect_id = 16*(10+selector.team)
+
+      x = 25
+      @window.effects[effect_id].draw(x, y-20, 1) if selector.current_menu == :select_ship
+      @window.ship_images[selector.ship_klass.image_offset].draw(x, y, 1) if selector.ship_klass
+
+      x = 100
+      @window.font.draw("Player #{selector.team}", x, y, 1, 1, 1)
+
+      x = 200
+      @window.effects[effect_id].draw(x, y-20, 1) if selector.current_menu == :config_buttons
+      @window.font.draw("Config Buttons #{selector.current_button}", x, y, 1, 1, 1)
+
+      x = 500
+      @window.effects[effect_id].draw(x, y-20, 1) if selector.current_menu == :ready
+      @window.font.draw("Start#{selector.ready? ? '!' : '?'}", x, y, 1, 1, 1)
+    end
+  end
+
+ def button_down(id)
+    selectors.each do |p|
+        if id == Gosu::const_get(:"Gp#{p.team}Up")
+          p.up!
+        elsif id == Gosu::const_get(:"Gp#{p.team}Left")
+          p.left!
+        elsif id == Gosu::const_get(:"Gp#{p.team}Right")
+          p.right!
+          puts p.current_menu
+        elsif id == Gosu::const_get(:"Gp#{p.team}Down")
+          p.down!
+        end
+      #loop through each button they might press
+      15.times do |i|
+        if id == Gosu::const_get(:"Gp#{p.team}Button#{i}")
+          p.pressed_button(id)
+        end
+      end
+    end
+  end
+end
