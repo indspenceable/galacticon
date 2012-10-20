@@ -10,4 +10,7 @@ class Blinker < SimpleWeapon
   def cooldown
     100
   end
+  def required_charge
+    250
+  end
 end

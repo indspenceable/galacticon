@@ -8,4 +8,7 @@ class HeavyCannon < SimpleWeapon
   def cooldown
     35
   end
+  def required_charge
+    200
+  end
 end

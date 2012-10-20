@@ -10,13 +10,19 @@ class SimpleWeapon
     end
   end
   def attempt_activate! window
-    if ready_to_shoot?
+    if ready_to_shoot? && spend_charge
       activate!(window)
       set_timeout
     end
   end
   def activate! window
     shoot!(window, bullet_klass)
+  end
+  def spend_charge
+    if @ship.battery > required_charge
+      @ship.discharge! required_charge
+      true
+    end
   end
   def ready_to_shoot?
     @ship.timers[timer_name] == 0

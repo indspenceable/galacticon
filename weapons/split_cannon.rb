@@ -12,4 +12,7 @@ class SplitCannon < SimpleWeapon
   def timer_name
     :HeavyCannon
   end
+  def required_charge
+    300
+  end
 end

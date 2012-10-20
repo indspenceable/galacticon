@@ -7,4 +7,7 @@ class Teleporter < SimpleWeapon
   def cooldown
     100
   end
+  def required_charge
+    500
+  end
 end

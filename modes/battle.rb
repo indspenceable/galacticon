@@ -76,8 +76,11 @@ class Battle
 
   def draw_player p
     total  = 100.0
-    width = p.hull * (total/p.max_hull)
-    height = 30
+    health_bar_width = p.hull * (total/p.max_hull)
+    battery_width = p.battery * (total/p.max_battery)
+    health_bar_height = 15
+    battery_height = 30
+    height = battery_height
 
     x, y, color = case p.team
       when 0
@@ -91,10 +94,16 @@ class Battle
     end
 
     @window.draw_quad(
-              x,          y, color,
-      x + width,          y, color,
-              x, y + height, color,
-      x + width, y + height, color
+                         x,                     y, color,
+      x + health_bar_width,                     y, color,
+                         x, y + health_bar_height, color,
+      x + health_bar_width, y + health_bar_height, color
+    )
+    @window.draw_quad(
+                      x,    y + battery_height, color,
+      x + battery_width,    y + battery_height, color,
+                      x, y + health_bar_height, color,
+      x + battery_width, y + health_bar_height, color
     )
   end
 end

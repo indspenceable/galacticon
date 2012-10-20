@@ -5,7 +5,6 @@ class Shot
     @owner = owner
     @w,@h = window.width, window.height
     @window = window
-    @ticks = duration
   end
   def warp(x, y, angle)
     self.x = x
@@ -25,6 +24,7 @@ class Shot
     !!@hit
   end
   def timed_out?
+    @ticks ||= duration
     ((@ticks -= 1) <= 0)
   end
 

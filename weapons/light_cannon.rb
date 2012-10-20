@@ -11,4 +11,7 @@ class LightCannon < SimpleWeapon
   def cooldown
     5
   end
+  def required_charge
+    15
+  end
 end

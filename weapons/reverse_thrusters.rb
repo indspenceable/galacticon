@@ -9,4 +9,7 @@ class ReverseThrusters < SimpleWeapon
   def cooldown
     15
   end
+  def required_charge
+    50
+  end
 end

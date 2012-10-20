@@ -11,6 +11,9 @@ class BombLauncher < SimpleWeapon
     end
   end
   def cooldown
-    100
+    25
+  end
+  def required_charge
+    400
   end
 end
