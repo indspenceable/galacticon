@@ -60,7 +60,7 @@ class Player
     @ready = false
   end
   def bind_current_action_to button
-    @bindings[BUTTONS[@current_button]] = button
+    @bindings[current_button] = button
   end
   def key_binding(action)
     @bindings[action]
@@ -76,6 +76,10 @@ class Player
   end
   def select_ship?
     current_menu == :select_ship
+  end
+
+  def current_button
+    BUTTONS[@current_button]
   end
 
   def left!
@@ -244,9 +248,9 @@ class GameWindow < Gosu::Window
 
       x = 200
       effects[effect_id].draw(x, y-20, 1) if p.current_menu == :config_buttons
-      @font.draw("Config Buttons #{}", x, y, 1, 1, 1)
+      @font.draw("Config Buttons #{p.current_button}", x, y, 1, 1, 1)
 
-      x = 400
+      x = 500
       effects[effect_id].draw(x, y-20, 1) if p.current_menu == :start
       @font.draw("Start#{p.ready? ? '!' : '?'}", x, y, 1, 1, 1)
     end
