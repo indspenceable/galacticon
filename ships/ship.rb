@@ -19,6 +19,7 @@ class Ship
 
     @tertiary = BombLauncher.new(self, battle.shots)
     @battery = max_battery
+    @ticks_since_last_battery_use = 0
   end
   def team
     player.team
@@ -29,7 +30,14 @@ class Ship
     @timers.each do |k,v|
       @timers[k] -= 1 if @timers[k] > 0
     end
-    @battery += 1 if @battery < max_battery
+    @ticks_since_last_battery_use += 1
+
+    battery_recovery = @ticks_since_last_battery_use - 20
+    battery_recovery = 3 if battery_recovery > 5
+    battery_recovery = 0 if battery_recovery < 0
+
+    @battery += battery_recovery
+    @battery = max_battery if @battery > max_battery
   end
 
   def color
@@ -95,6 +103,7 @@ class Ship
     1000
   end
   def discharge! x
+    @ticks_since_last_battery_use = 0
     @battery -= x
   end
 

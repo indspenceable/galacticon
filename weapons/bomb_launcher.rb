@@ -14,6 +14,6 @@ class BombLauncher < SimpleWeapon
     25
   end
   def required_charge
-    400
+    250
   end
 end

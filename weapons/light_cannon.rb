@@ -12,6 +12,6 @@ class LightCannon < SimpleWeapon
     5
   end
   def required_charge
-    15
+    12
   end
 end

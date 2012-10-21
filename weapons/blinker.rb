@@ -11,6 +11,6 @@ class Blinker < SimpleWeapon
     100
   end
   def required_charge
-    250
+    100
   end
 end

@@ -13,6 +13,6 @@ class SplitCannon < SimpleWeapon
     :HeavyCannon
   end
   def required_charge
-    300
+    200
   end
 end

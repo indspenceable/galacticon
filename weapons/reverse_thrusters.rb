@@ -10,6 +10,6 @@ class ReverseThrusters < SimpleWeapon
     15
   end
   def required_charge
-    50
+    25
   end
 end

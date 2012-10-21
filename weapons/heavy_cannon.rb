@@ -9,6 +9,6 @@ class HeavyCannon < SimpleWeapon
     35
   end
   def required_charge
-    200
+    150
   end
 end

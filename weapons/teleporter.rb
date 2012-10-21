@@ -8,6 +8,6 @@ class Teleporter < SimpleWeapon
     100
   end
   def required_charge
-    500
+    250
   end
 end
