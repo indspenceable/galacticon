@@ -1,6 +1,11 @@
 require './shots/shot'
 
 class SlowShot < Shot
+  def move
+    super
+    #TODO this should be in a tick function
+    @window.particles.add_emitter SparkEmitter.new(@x, @y, 3, @owner.color)
+  end
   def image_offset
     14*15+2
   end

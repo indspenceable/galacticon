@@ -43,6 +43,7 @@ class Shot
         @y < p.y + r &&
         @y > p.y - r &&
         @hit = true
+        @window.particles.add_emitter(SparkEmitter.new(@x, @y, 5, @owner.color))
         collide!(p)
       end
     end

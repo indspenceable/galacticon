@@ -18,20 +18,42 @@ class Bomb < Shot
     @detonated
   end
   def check_for_collisions! ships
-  end
-  def detonate!(shots)
-    @detonated = true
-    -1.upto(1) do |xo|
-      -1.upto(1) do |yo|
-        s = Shrapnel.new(@window, @owner)
-        s.warp(x + xo*30, y + yo*30, angle)
-        shots << s
+    if @detonating
+      ships.each do |s|
+        xd = s.x - x
+        yd = s.y - y
+        distance = Math.sqrt(xd*xd + yd*yd)
+        6.times do |i|
+          if distance < i*5
+            collide!(s)
+          end
+        end
       end
+      @window.particles.add_emitter(BombEmitter.new(@x,@y,5))
+      @detonated = true
     end
+  end
+  def collide! ship
+    super
+    @window.particles.add_emitter(ExplosionEmitter.new(ship.x,ship.y,30))
+  end
+
+  def detonate!(ships)
+    @detonating = true
+  end
+  def damage
+    15
   end
 
   def damage! *args
     @detonated = true
+  end
+
+  def move
+    super
+    @counter ||= 0
+    @counter = (@counter + 1)%10
+    @window.particles.add_emitter(SparkEmitter.new(@x, @y, 5))if @counter == 0
   end
 
   def ignore_hits?

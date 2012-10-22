@@ -15,7 +15,7 @@ class Player
     Gosu::Color::GREEN,
     Gosu::Color::BLUE,
     Gosu::Color::FUCHSIA
-  ]
+  ].shuffle
   SHIPS = [
     nil,
     Arilou,

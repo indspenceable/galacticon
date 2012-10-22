@@ -29,6 +29,7 @@ class Battle
     process_button_presses_for_players!
     @ships.reject! do |p|
       if p.expired?
+        p.explode!
         @order_of_death << p.player
       end
     end

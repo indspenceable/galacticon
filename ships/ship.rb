@@ -9,6 +9,7 @@ class Ship
   def initialize(window, battle, player)
     @w,@h = window.width, window.height
     @image = window.ship_images[self.class.image_offset]
+    @window = window
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @hull = max_hull
 
@@ -107,6 +108,9 @@ class Ship
     @battery -= x
   end
 
+  def explode!
+    @window.particles.add_emitter(ExplosionEmitter.new(@x, @y, 100))
+  end
   # DEPENDS ON:
   # image_offset
   # turn_speed

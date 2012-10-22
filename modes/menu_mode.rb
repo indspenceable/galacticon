@@ -56,7 +56,6 @@ class MenuMode
           p.left!
         elsif id == Gosu::const_get(:"Gp#{p.team}Right")
           p.right!
-          puts p.current_menu
         elsif id == Gosu::const_get(:"Gp#{p.team}Down")
           p.down!
         end
