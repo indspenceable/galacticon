@@ -1,16 +1,16 @@
 require './shots/shot'
 
-class QuickShot < Shot
+class StandardShot < Shot
   def image_offset
-    2
+    1
   end
   def speed
-    10
+    7
   end
   def duration
-    40
+    50
   end
   def damage
-    1
+    3
   end
 end

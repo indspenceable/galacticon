@@ -1,11 +1,11 @@
 require './ships/ship'
-require './weapons/light_cannon'
+require './weapons/standard_cannon'
 require './weapons/blinker'
 
 class AgileShip < Ship
   def initialize(window, battle, team)
     super
-    @primary = LightCannon.new(self, battle.shots)
+    @primary = StandardCannon.new(self, battle.shots)
     @secondary = Blinker.new(self, battle.shots)
   end
 
@@ -14,12 +14,12 @@ class AgileShip < Ship
     61
   end
   def turn_speed
-    6
+    9
   end
   def acceleration
-    0.3
+    0.1
   end
   def max_velocity
-    6.0
+    4
   end
 end

@@ -20,11 +20,14 @@ class Arilou < StandardShip
     8
   end
   def max_velocity
-    7
+    5
   end
   def move
     super
     @vel_x = 0
     @vel_y = 0
+  end
+  def max_hull
+    (super*2/3).to_i
   end
 end

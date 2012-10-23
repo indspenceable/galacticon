@@ -95,7 +95,7 @@ class ExplosionEmitter < Emitter
                color,
             duration,
                    5,
-                   3) if rand(5) == 0
+                   3) if rand(chance) == 0
       end
     end
     particles
@@ -106,8 +106,22 @@ class ExplosionEmitter < Emitter
   def duration
     rand(10)+10
   end
+  def chance
+    5
+  end
 end
 
+class TeleportEmitter < ExplosionEmitter
+  def speed
+    10
+  end
+  def duration
+    5
+  end
+  def chance
+    5
+  end
+end
 
 class BombEmitter < ExplosionEmitter
   def speed
