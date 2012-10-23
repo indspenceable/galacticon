@@ -21,6 +21,9 @@ class Ship
     @tertiary = BombLauncher.new(self, battle.shots)
     @battery = max_battery
     @ticks_since_last_battery_use = 0
+
+    @time_till_emitter = 0
+
   end
   def team
     player.team
@@ -33,6 +36,7 @@ class Ship
     end
     @ticks_since_last_battery_use += 1
 
+    @time_till_emitter -= 1 if @time_till_emitter > 0
     battery_recovery = @ticks_since_last_battery_use - 20
     battery_recovery = 3 if battery_recovery > 5
     battery_recovery = 0 if battery_recovery < 0
@@ -64,6 +68,10 @@ class Ship
   def accelerate
     @vel_x += Gosu::offset_x(@angle, acceleration)
     @vel_y += Gosu::offset_y(@angle, acceleration)
+    if @time_till_emitter == 0
+      @window.particles.add_emitter(TrailEmitter.new(@x,@y,2,color))
+      @time_till_emitter += 5
+    end
   end
   def velocity
     Math.sqrt(@vel_x*@vel_x + @vel_y*@vel_y)

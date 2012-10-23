@@ -47,7 +47,9 @@ class Battle
       @order_of_death.each_with_index do |p, i|
         p.score!(i)
       end
-      MenuMode.new(@window, @players)
+      @countdown ||= 100
+      @countdown -= 1 unless @window.particles.any?
+      MenuMode.new(@window, @players) if @countdown == 0
     end
   end
 

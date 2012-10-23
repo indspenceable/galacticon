@@ -86,33 +86,32 @@ class ExplosionEmitter < Emitter
       3.times do |ya|
         particles << MovingParticle.new(
            rand(360),
-                   5,
+               speed,
           x + xa - 1,
           y + ya - 1,
                color,
-         rand(10)+10,
+            duration,
                    5,
                    3) if rand(5) == 0
       end
     end
     particles
   end
+  def speed
+    5
+  end
+  def duration
+    rand(10)+10
+  end
 end
 
 
-class BombEmitter < Emitter
-  def generate_particles!
-    super
-    particles = []
-    3.times do |xa|
-      3.times do |ya|
-        particles << ScatterParticle.new(x + (xa - 1)*15, y + (ya - 1)*15, color, 2)
-        if xa == 1 || ya == 1
-          particles << ScatterParticle.new(x + (xa - 1)*30, y + (ya - 1)*30, color, 2)
-        end
-      end
-    end
-    particles
+class BombEmitter < ExplosionEmitter
+  def speed
+    2
+  end
+  def duration
+    rand(3)+7
   end
 end
 
@@ -149,5 +148,8 @@ class ParticleEngine
           )
         end
     end
+  end
+  def any?
+    @particles.any? || @emitters.any?
   end
 end
