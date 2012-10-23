@@ -1,13 +1,25 @@
 class Particle
-  attr_reader :x, :y, :color
-  def initialize x, y, color, duration
-    @x, @y, @color, @duration = x, y, color, duration
+  attr_reader :x, :y
+  attr_reader :effect_id, :animation_length, :frame
+  def initialize x, y, color, duration, effect_id = 5, animation_length = 9
+    @x, @y, @color, @duration, @effect_id, @animation_length = x, y, color, duration, effect_id, animation_length
+    @frame = 0
+  end
+  def angle
+    rand(360)
   end
   def tick
+    @frame += 1
     @duration -= 1
   end
   def done?
     @duration <= 0
+  end
+  def random_color
+    [0,1,2,3].sample
+  end
+  def color
+    @color || random_color
   end
 end
 
@@ -18,20 +30,20 @@ class ScatterParticle < Particle
     @y += rand(5)-2
   end
 end
+class MovingParticle < Particle
+  def initialize angle, speed, *args
+    super(*args)
+    @angle, @speed = angle, speed
+  end
+  def tick
+    super
+    @x += Gosu::offset_x(@angle, @speed)
+    @y += Gosu::offset_y(@angle, @speed)
+  end
+end
 
 class StaticParticle < Particle
 end
-# class MovingParticle < Particle
-#   def initialize x, y, color, duration, vel_x, vel_y
-#     super(x,y,color,duration)
-#     @vel_x, @vel_y= vel_x, vel_y
-#   end
-#   def tick
-#     super
-#     @x += @vel_x
-#     @y += @vel_y
-#   end
-# end
 
 class Emitter
   attr_reader :x, :y
@@ -39,12 +51,7 @@ class Emitter
     @x, @y, @duration, @color = x, y, duration, color
   end
   def random_color
-    [
-      Gosu::Color::RED,
-      Gosu::Color::BLUE,
-      Gosu::Color::GREEN,
-      Gosu::Color::YELLOW
-    ].sample
+    [0,1,2,3].sample
   end
   def color
     @color || random_color
@@ -64,18 +71,34 @@ class SparkEmitter < Emitter
   end
 end
 
+class TrailEmitter < Emitter
+  def generate_particles!
+      super
+     [ScatterParticle.new(x, y, color, 20, 14, 1)]
+  end
+end
+
 class ExplosionEmitter < Emitter
   def generate_particles!
     super
     particles = []
     3.times do |xa|
       3.times do |ya|
-        particles << ScatterParticle.new(x + xa - 1, y + ya - 1, color, 20) if rand(2) == 0
+        particles << MovingParticle.new(
+           rand(360),
+                   5,
+          x + xa - 1,
+          y + ya - 1,
+               color,
+         rand(10)+10,
+                   5,
+                   3) if rand(5) == 0
       end
     end
     particles
   end
 end
+
 
 class BombEmitter < Emitter
   def generate_particles!
@@ -114,12 +137,17 @@ class ParticleEngine
   end
   def draw
     @particles.each do |p|
-      @window.draw_quad(
-        p.x-1, p.y-1, p.color,
-        p.x+1, p.y-1, p.color,
-        p.x-1, p.y+1, p.color,
-        p.x+1, p.y+1, p.color
-      )
+        if p.effect_id
+          p.effect_id + (p.frame%p.animation_length) + p.color*20
+          @window.effects[p.effect_id + (p.frame%p.animation_length) + p.color*20].draw_rot(p.x, p.y, 5, p.angle)
+        else
+          @window.draw_quad(
+            p.x-1, p.y-1, Player::COLORS[p.color],
+            p.x+1, p.y-1, Player::COLORS[p.color],
+            p.x-1, p.y+1, Player::COLORS[p.color],
+            p.x+1, p.y+1, Player::COLORS[p.color]
+          )
+        end
     end
   end
 end

@@ -15,7 +15,14 @@ class Player
     Gosu::Color::GREEN,
     Gosu::Color::BLUE,
     Gosu::Color::FUCHSIA
-  ].shuffle
+  ]
+
+  COLOR_SHUFFLE = {}
+  teams = [0,1,2,3].shuffle
+  4.times do |x|
+    COLOR_SHUFFLE[x] = teams.pop
+  end
+
   SHIPS = [
     nil,
     Arilou,
@@ -45,7 +52,8 @@ class Player
   end
 
   def color
-    COLORS[team]
+    #COLORS[COLOR_SHUFFLE[team]]
+    COLOR_SHUFFLE[team]
   end
   def bind_action_to_button action, button
     @bindings[action] = button

@@ -15,13 +15,13 @@ class GameWindow < Gosu::Window
   def initialize
     super(WIDTH, HEIGHT, false)
     self.caption = "Gosu Tutorial Game"
-    @players = Array.new(4) {|x| Player.new(x) }
+    @players = (Array.new(4) {|x| Player.new(x) })
 
     @between_games = true
 
     @font = Gosu::Font.new(self, "Verdana", 24)
     @ship_images = Gosu::Image.load_tiles(self, "ships.png", 26*2, 18*2, false)
-    @effects = Gosu::Image.load_tiles(self, "effects.png", 24, 24, false)
+    @effects = Gosu::Image.load_tiles(self, "assets.png", 24, 24, false)
     @particles = ParticleEngine.new(self)
 
     @mode = MenuMode.new(self, @players)

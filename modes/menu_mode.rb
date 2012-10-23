@@ -29,7 +29,7 @@ class MenuMode
   def draw
     selectors.each do |selector|
       y = 150*selector.team + 30
-      effect_id = 16*(10+selector.team)
+      effect_id = 16+(20*selector.color)
 
       x = 25
       @window.effects[effect_id].draw(x, y-20, 1) if selector.current_menu == :select_ship

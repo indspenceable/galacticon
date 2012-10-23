@@ -1,7 +1,6 @@
 class Shot
   attr_accessor :x, :y, :angle
   def initialize(window, owner)
-    @effects = window.effects
     @owner = owner
     @w,@h = window.width, window.height
     @window = window
@@ -18,7 +17,7 @@ class Shot
     @y %= @h
   end
   def draw
-    @effects[image_offset + team_offset*@owner.team].draw_rot(@x, @y, 1, @angle)
+    @window.effects[image_offset + @owner.color*20].draw_rot(@x, @y, 10, @angle)
   end
   def hit?
     !!@hit
@@ -43,13 +42,13 @@ class Shot
         @y < p.y + r &&
         @y > p.y - r &&
         @hit = true
-        @window.particles.add_emitter(SparkEmitter.new(@x, @y, 5, @owner.color))
+        display_emitters!
         collide!(p)
       end
     end
   end
-  def team_offset
-    8
+  def display_emitters!
+    @window.particles.add_emitter(SparkEmitter.new(@x, @y, 5, @owner.color))
   end
 
   def collide!(ship)

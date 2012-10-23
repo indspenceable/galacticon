@@ -14,7 +14,7 @@ class Battle
       [window.width/4 + window.width/4*2, window.height/4 + window.height/4*0, -135],
       [window.width/4 + window.width/4*0, window.height/4 + window.height/4*2,   45],
       [window.width/4 + window.width/4*2, window.height/4 + window.height/4*2, - 45],
-    ]
+    ].shuffle
     @players.each do |p|
       klass = p.ship_klass || Player::SHIPS.compact.sample
       ship = klass.new(@window, self, p)
@@ -85,13 +85,13 @@ class Battle
 
     x, y, color = case p.team
       when 0
-        [0,0, Gosu::Color::RED]
+        [0,0, Player::COLORS[p.color]]
       when 1
-        [@window.width - total, 0, Gosu::Color::GREEN]
+        [@window.width - total, 0, Player::COLORS[p.color]]
       when 2
-        [0, @window.height - height, Gosu::Color::BLUE]
+        [0, @window.height - height, Player::COLORS[p.color]]
       when 3
-        [@window.width - total,  @window.height - height, Gosu::Color::FUCHSIA]
+        [@window.width - total,  @window.height - height, Player::COLORS[p.color]]
     end
 
     @window.draw_quad(

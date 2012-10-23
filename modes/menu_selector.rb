@@ -44,6 +44,9 @@ class MenuSelector
   def team
     @player.team
   end
+  def color
+    @player.color
+  end
 
   def pressed_button id
     if current_menu == :config_buttons

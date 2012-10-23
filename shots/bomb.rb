@@ -6,10 +6,7 @@ class Bomb < Shot
     super
   end
   def image_offset
-    3
-  end
-  def team_offset
-    2
+    0
   end
   def speed
     0.5
