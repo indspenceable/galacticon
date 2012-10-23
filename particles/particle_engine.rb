@@ -1,9 +1,11 @@
 class Particle
   attr_reader :x, :y
   attr_reader :effect_id, :animation_length, :frame
+  attr_accessor :z
   def initialize x, y, color, duration, effect_id = 5, animation_length = 9
     @x, @y, @color, @duration, @effect_id, @animation_length = x, y, color, duration, effect_id, animation_length
     @frame = 0
+    @z = 5
   end
   def angle
     rand(360)
@@ -74,7 +76,8 @@ end
 class TrailEmitter < Emitter
   def generate_particles!
       super
-     [ScatterParticle.new(x, y, color, 20, 14, 1)]
+
+     [ScatterParticle.new(x, y, color, 20, 14, 1).tap{|p| p.z = 0}]
   end
 end
 
@@ -138,7 +141,7 @@ class ParticleEngine
     @particles.each do |p|
         if p.effect_id
           p.effect_id + (p.frame%p.animation_length) + p.color*20
-          @window.effects[p.effect_id + (p.frame%p.animation_length) + p.color*20].draw_rot(p.x, p.y, 5, p.angle)
+          @window.effects[p.effect_id + (p.frame%p.animation_length) + p.color*20].draw_rot(p.x, p.y, p.z, p.angle)
         else
           @window.draw_quad(
             p.x-1, p.y-1, Player::COLORS[p.color],
