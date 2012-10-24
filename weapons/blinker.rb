@@ -6,7 +6,7 @@ class Blinker < SimpleWeapon
     window.particles.add_emitter(TeleportEmitter.new(@ship.x, @ship.y, 5, @ship.color))
     @ship.warp(@ship.x + Gosu::offset_x(@ship.angle, BLINK_DISTANCE),
                @ship.y + Gosu::offset_y(@ship.angle, BLINK_DISTANCE))
-
+    window.sample('warp').play
   end
   def cooldown
     50

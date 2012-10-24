@@ -4,6 +4,7 @@ require 'gosu'
 require './particles/particle_engine'
 require './modes/menu_mode'
 require './player'
+require './todo'
 
 class GameWindow < Gosu::Window
   WIDTH = (Gosu.screen_width * 0.9).round
@@ -25,10 +26,12 @@ class GameWindow < Gosu::Window
     @particles = ParticleEngine.new(self)
 
     @mode = MenuMode.new(self, @players)
+    @delays = []
   end
 
   def update
     @particles.tick
+    @delays.reject!(&:tick)
     @mode = @mode.update || @mode
   end
 
@@ -42,6 +45,10 @@ class GameWindow < Gosu::Window
       close
     end
     @mode.button_down(id)
+  end
+
+  def delay ms, args, &blk
+    @delays << Todo.new(ms, blk, args)
   end
 
   def sample(name)
