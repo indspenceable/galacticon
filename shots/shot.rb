@@ -43,12 +43,16 @@ class Shot
         @y > p.y - r &&
         @hit = true
         display_emitters!
+        play_sound!
         collide!(p)
       end
     end
   end
   def display_emitters!
     @window.particles.add_emitter(SparkEmitter.new(@x, @y, 5, @owner.color))
+  end
+  def play_sound!
+    @window.sample("hit2").play
   end
 
   def collide!(ship)

@@ -10,6 +10,9 @@ class QuickShip < Ship
     @secondary =StandardCannon.new(self, battle.shots)
     @tertiary = ReverseThrusters.new(self, battle.shots)
   end
+  def max_hull
+    super / 2
+  end
 
   # TODO override these methods
   def self.image_offset

@@ -16,7 +16,13 @@ class SimpleWeapon
     end
   end
   def activate! window
+    play_sample!(window)
+    add_emitter!(window)
     shoot!(window, bullet_klass)
+  end
+  def play_sample!(window)
+  end
+  def add_emitter!(window)
   end
   def spend_charge
     if @ship.battery > required_charge

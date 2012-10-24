@@ -6,8 +6,10 @@ class BombLauncher < SimpleWeapon
     if @bomb && !@bomb.expired?
       @bomb.detonate!(@shots)
       @bomb = nil
+      window.sample("bomb_explosion").play
     else
       @bomb = shoot!(window, Bomb)
+      window.sample("launch_bomb").play
     end
   end
   def cooldown

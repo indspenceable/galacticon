@@ -4,6 +4,7 @@ class Teleporter < SimpleWeapon
   def activate! window
     window.particles.add_emitter(TeleportEmitter.new(@ship.x, @ship.y, 5, @ship.color))
     @ship.warp(rand(window.width), rand(window.height))
+    window.sample('warp').play
   end
   def cooldown
     100

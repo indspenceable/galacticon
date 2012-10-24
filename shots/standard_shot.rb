@@ -13,4 +13,7 @@ class StandardShot < Shot
   def damage
     3
   end
+  def play_sound
+    @window.sample("missile_hit").play
+  end
 end

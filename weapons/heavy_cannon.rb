@@ -11,4 +11,7 @@ class HeavyCannon < SimpleWeapon
   def required_charge
     150
   end
+  def play_sample!(window)
+    window.sample('missile').play
+  end
 end

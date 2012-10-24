@@ -43,6 +43,11 @@ class GameWindow < Gosu::Window
     end
     @mode.button_down(id)
   end
+
+  def sample(name)
+    @samples ||= {}
+    @samples[name] ||= Gosu::Sample.new(self, "sounds/#{name}.wav")
+  end
 end
 
 window = GameWindow.new

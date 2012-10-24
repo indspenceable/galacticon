@@ -7,6 +7,7 @@ class LightCannon < SimpleWeapon
   end
   def activate! window
     shoot!(window, bullet_klass, @ship.x, @ship.y, @ship.angle + rand(15) - 7)
+    window.sample('laser').play
   end
   def cooldown
     5
