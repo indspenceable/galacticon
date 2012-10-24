@@ -14,6 +14,7 @@ class MenuMode
     @players = players
     @selectors = players.map{|p| MenuSelector.new(p) }
     @window = window
+    @window.songs("menu").play
   end
 
   # lifted from window

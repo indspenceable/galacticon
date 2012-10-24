@@ -27,6 +27,7 @@ class GameWindow < Gosu::Window
 
     @mode = MenuMode.new(self, @players)
     @delays = []
+
   end
 
   def update
@@ -43,6 +44,10 @@ class GameWindow < Gosu::Window
   def button_down(id)
     if id == Gosu::KbEscape
       close
+      #wasn't sucessfully closing unless I freed all songs...
+      @songs.each do |k,v|
+        @songs[k] = nil
+      end
     end
     @mode.button_down(id)
   end
@@ -54,6 +59,10 @@ class GameWindow < Gosu::Window
   def sample(name)
     @samples ||= {}
     @samples[name] ||= Gosu::Sample.new(self, "sounds/#{name}.wav")
+  end
+  def songs(name)
+    @songs ||= {}
+    @songs[name] ||= Gosu::Song.new(self, "music/#{name}.mp3")
   end
 end
 

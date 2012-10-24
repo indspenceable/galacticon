@@ -23,6 +23,7 @@ class Battle
     end
 
     @order_of_death = []
+    @window.songs("battle").play
   end
 
   def update
