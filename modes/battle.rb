@@ -1,3 +1,5 @@
+require './modes/countdown'
+
 class Battle
   attr_reader :shots
   def initialize window, players
@@ -23,10 +25,20 @@ class Battle
     end
 
     @order_of_death = []
+
+    @start_of_battle_countdown = false
+    @fade_out_has_happened = false
+  end
+
+  def start_battle!
     @window.songs("battle").play
+
+    self
   end
 
   def update
+    return @start_of_battle_countdown = CountdownMode.new(@window, self) unless @start_of_battle_countdown
+
     process_button_presses_for_players!
     @ships.reject! do |p|
       if p.expired?

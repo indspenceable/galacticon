@@ -44,6 +44,7 @@ class GameWindow < Gosu::Window
   def button_down(id)
     if id == Gosu::KbEscape
       close
+      Gosu::Song.current_song.stop
       #wasn't sucessfully closing unless I freed all songs...
       @songs.each do |k,v|
         @songs[k] = nil
@@ -67,4 +68,8 @@ class GameWindow < Gosu::Window
 end
 
 window = GameWindow.new
-window.show
+begin
+  window.show
+ensure
+  Gosu::Song.current_song.stop
+end
