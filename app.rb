@@ -53,8 +53,8 @@ class GameWindow < Gosu::Window
     @mode.button_down(id)
   end
 
-  def delay ms, args, &blk
-    @delays << Todo.new(ms, blk, args)
+  def delay ms, *args, &blk
+    @delays << Todo.new(ms, blk, *args)
   end
 
   def sample(name)
@@ -71,5 +71,5 @@ window = GameWindow.new
 begin
   window.show
 ensure
-  Gosu::Song.current_song.stop
+  Gosu::Song.current_song.stop if Gosu::Song.current_song
 end
