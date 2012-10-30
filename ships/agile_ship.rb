@@ -1,12 +1,14 @@
 require './ships/ship'
 require './weapons/standard_cannon'
 require './weapons/blinker'
+require './weapons/gravity_cannon'
 
 class AgileShip < Ship
   def initialize(window, battle, team)
     super
     @primary = StandardCannon.new(self, battle.shots)
     @secondary = Blinker.new(self, battle.shots)
+    @tertiary = GravityCannon.new(self, battle.shots)
   end
 
   # TODO override these methods
